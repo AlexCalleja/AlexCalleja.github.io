@@ -8,6 +8,32 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
     :root {
+      /* Light — Warm Executive (default) */
+      --bg:        #faf7f0;
+      --bg2:       #ffffff;
+      --bg3:       #f3ede3;
+      --border:    #d8cfc4;
+      --green:     #1e3a5f;
+      --green-dim: #2d5282;
+      --cyan:      #0369a1;
+      --yellow:    #92400e;
+      --purple:    #5b21b6;
+      --red:       #b91c1c;
+      --white:     #1e293b;
+      --gray:      #64748b;
+      --mono:      'JetBrains Mono', monospace;
+      --sans:      'Space Grotesk', sans-serif;
+      /* rgb components for rgba() usage */
+      --green-rgb: 30, 58, 95;
+      --cyan-rgb:  3, 105, 161;
+      --yellow-rgb:146, 64, 14;
+      --purple-rgb:91, 33, 182;
+      --red-rgb:   185, 28, 28;
+      --nav-bg:    rgba(250,247,240,.92);
+      --output-bg: rgba(0,0,0,.06);
+    }
+
+    [data-theme="dark"] {
       --bg:        #0d1117;
       --bg2:       #161b22;
       --bg3:       #21262d;
@@ -20,9 +46,18 @@
       --red:       #f85149;
       --white:     #e6edf3;
       --gray:      #8b949e;
-      --mono:      'JetBrains Mono', monospace;
-      --sans:      'Space Grotesk', sans-serif;
+      --green-rgb: 63, 185, 80;
+      --cyan-rgb:  88, 212, 232;
+      --yellow-rgb:227, 179, 65;
+      --purple-rgb:188, 140, 255;
+      --red-rgb:   248, 81, 73;
+      --nav-bg:    rgba(13,17,23,.85);
+      --output-bg: rgba(0,0,0,.3);
     }
+
+    /* scanline/noise only in dark mode */
+    html:not([data-theme="dark"]) body::before,
+    html:not([data-theme="dark"]) body::after { display: none; }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -34,6 +69,7 @@
       font-family: var(--mono);
       min-height: 100vh;
       overflow-x: hidden;
+      transition: background .3s, color .3s;
     }
 
     /* ── SCANLINE OVERLAY ── */
@@ -70,7 +106,7 @@
     /* ── NAV ── */
     nav {
       position: fixed; top: 0; left: 0; right: 0;
-      background: rgba(13,17,23,.85);
+      background: var(--nav-bg);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       padding: .75rem 2rem;
@@ -94,6 +130,24 @@
     }
     .nav-links a:hover { color: var(--green); }
     .nav-links a::before { content: '# '; color: var(--green-dim); }
+
+    /* ── THEME TOGGLE ── */
+    .theme-toggle {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--gray);
+      font-size: .9rem;
+      cursor: pointer;
+      border-radius: 6px;
+      padding: .25rem .55rem;
+      transition: color .2s, border-color .2s;
+      font-family: var(--mono);
+      line-height: 1;
+    }
+    .theme-toggle:hover {
+      color: var(--green);
+      border-color: var(--green);
+    }
 
     /* ── MAIN LAYOUT ── */
     main {
@@ -147,6 +201,10 @@
       border: 1px solid var(--border);
       border-radius: 10px;
       overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,.1);
+    }
+
+    [data-theme="dark"] .terminal-window {
       box-shadow: 0 20px 60px rgba(0,0,0,.6);
     }
 
@@ -191,7 +249,7 @@
     .c-num    { color: var(--cyan); }
 
     .output-block {
-      background: rgba(0,0,0,.3);
+      background: var(--output-bg);
       border-left: 3px solid var(--green-dim);
       padding: .75rem 1rem;
       margin: .5rem 0;
@@ -290,20 +348,20 @@
     }
 
     .tag {
-      background: rgba(63,185,80,.08);
-      border: 1px solid rgba(63,185,80,.2);
+      background: rgba(var(--green-rgb),.08);
+      border: 1px solid rgba(var(--green-rgb),.2);
       color: var(--white);
       font-size: .72rem;
       padding: .2rem .55rem;
       border-radius: 4px;
       transition: background .2s;
     }
-    .tag:hover { background: rgba(63,185,80,.15); }
+    .tag:hover { background: rgba(var(--green-rgb),.15); }
 
-    .tag.cyan  { background: rgba(88,212,232,.08); border-color: rgba(88,212,232,.2); }
-    .tag.yellow{ background: rgba(227,179,65,.08);  border-color: rgba(227,179,65,.2); }
-    .tag.purple{ background: rgba(188,140,255,.08); border-color: rgba(188,140,255,.2); }
-    .tag.red   { background: rgba(248,81,73,.08);   border-color: rgba(248,81,73,.2); }
+    .tag.cyan  { background: rgba(var(--cyan-rgb),.08);   border-color: rgba(var(--cyan-rgb),.2); }
+    .tag.yellow{ background: rgba(var(--yellow-rgb),.08); border-color: rgba(var(--yellow-rgb),.2); }
+    .tag.purple{ background: rgba(var(--purple-rgb),.08); border-color: rgba(var(--purple-rgb),.2); }
+    .tag.red   { background: rgba(var(--red-rgb),.08);    border-color: rgba(var(--red-rgb),.2); }
 
     /* ══════════════════════════
        LINKS / CV
@@ -328,7 +386,7 @@
     }
     .link-card:hover {
       border-color: var(--green);
-      background: rgba(63,185,80,.05);
+      background: rgba(var(--green-rgb),.05);
       transform: translateY(-2px);
     }
 
@@ -386,8 +444,8 @@
       font-size: .65rem;
       padding: .15rem .5rem;
       border-radius: 20px;
-      background: rgba(63,185,80,.12);
-      border: 1px solid rgba(63,185,80,.25);
+      background: rgba(var(--green-rgb),.12);
+      border: 1px solid rgba(var(--green-rgb),.25);
       color: var(--green);
     }
 
@@ -450,12 +508,12 @@
       z-index: 500;
       font-size: 1.3rem;
       transition: transform .2s, background .2s, box-shadow .2s;
-      box-shadow: 0 4px 20px rgba(63,185,80,.3);
+      box-shadow: 0 4px 20px rgba(var(--green-rgb),.3);
     }
     .qr-fab:hover {
       transform: scale(1.08);
       background: var(--green);
-      box-shadow: 0 6px 28px rgba(63,185,80,.5);
+      box-shadow: 0 6px 28px rgba(var(--green-rgb),.5);
     }
 
     /* ── QR MODAL OVERLAY ── */
@@ -514,7 +572,7 @@
       background: #fff;
       border-radius: 10px;
       padding: 12px;
-      box-shadow: 0 0 0 4px rgba(63,185,80,.15);
+      box-shadow: 0 0 0 4px rgba(var(--green-rgb),.15);
     }
 
     .qr-url {
@@ -532,7 +590,7 @@
 
     .qr-copy-btn {
       width: 100%;
-      background: rgba(63,185,80,.1);
+      background: rgba(var(--green-rgb),.1);
       border: 1px solid var(--green-dim);
       color: var(--green);
       font-family: var(--mono);
@@ -542,7 +600,7 @@
       cursor: pointer;
       transition: background .2s;
     }
-    .qr-copy-btn:hover { background: rgba(63,185,80,.2); }
+    .qr-copy-btn:hover { background: rgba(var(--green-rgb),.2); }
     .qr-copy-btn.copied { color: var(--cyan); border-color: var(--cyan); }
 
     /* ══════════════════════════
@@ -597,6 +655,7 @@
     <li><a href="#links">links</a></li>
     <li><a href="#contact">contact</a></li>
   </ul>
+  <button class="theme-toggle" id="themeToggle" title="Switch to dark mode">☾</button>
 </nav>
 
 <main>
@@ -1111,11 +1170,11 @@
 </footer>
 
 <script>
-  const URL = 'https://alexcalleja.github.io';
+  const SITE_URL = 'https://alexcalleja.github.io';
 
   // Generar QR
   new QRCode(document.getElementById('qrCode'), {
-    text: URL,
+    text: SITE_URL,
     width: 200,
     height: 200,
     colorDark: '#0d1117',
@@ -1138,7 +1197,7 @@
   // Copiar link
   const copyBtn = document.getElementById('qrCopyBtn');
   copyBtn.addEventListener('click', () => {
-    navigator.clipboard.writeText(URL).then(() => {
+    navigator.clipboard.writeText(SITE_URL).then(() => {
       copyBtn.textContent = '✓ copied!';
       copyBtn.classList.add('copied');
       setTimeout(() => {
@@ -1146,6 +1205,29 @@
         copyBtn.classList.remove('copied');
       }, 2000);
     });
+  });
+
+  // Theme toggle
+  const html = document.documentElement;
+  const toggle = document.getElementById('themeToggle');
+
+  function applyTheme(theme) {
+    if (theme === 'dark') {
+      html.setAttribute('data-theme', 'dark');
+      toggle.textContent = '☀';
+      toggle.title = 'Switch to light mode';
+    } else {
+      html.removeAttribute('data-theme');
+      toggle.textContent = '☾';
+      toggle.title = 'Switch to dark mode';
+    }
+    localStorage.setItem('theme', theme);
+  }
+
+  applyTheme(localStorage.getItem('theme') || 'light');
+
+  toggle.addEventListener('click', () => {
+    applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
   });
 </script>
 </body>
