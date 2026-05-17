@@ -1,2 +1,3 @@
 # Claude Code — configuración local de sesión (personal, no compartir)
+.claude/settings.json
 .claude/settings.local.json
