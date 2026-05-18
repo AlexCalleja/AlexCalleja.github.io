@@ -4,6 +4,16 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Alejandro Calleja Luna — Engineering Portfolio</title>
+  <meta name="description" content="Senior Engineering Manager · 17 years in software · Technology Director · GCP · Python · Java · Open to remote roles in USA."/>
+  <meta name="theme-color" content="#1565c0"/>
+  <meta property="og:title" content="Alejandro Calleja Luna — Engineering Portfolio"/>
+  <meta property="og:description" content="Senior Engineering Manager · 17 yrs software · 9 yrs leadership · GCP · Python · Java · Open to remote roles in USA."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://alexcalleja.github.io"/>
+  <meta name="twitter:card" content="summary"/>
+  <meta name="twitter:title" content="Alejandro Calleja Luna — Engineering Portfolio"/>
+  <meta name="twitter:description" content="Senior Engineering Manager · Technology Director · 17 yrs in software · Open to remote roles in USA."/>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%231565c0'/%3E%3Ctext x='16' y='21' font-family='Georgia,serif' font-size='13' font-weight='700' fill='white' text-anchor='middle'%3EACL%3C/text%3E%3C/svg%3E"/>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Karla:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
@@ -192,8 +202,8 @@
       background:rgba(245,249,253,.8); transition:background .35s,border-color .35s;
     }
     .r-before { font-family:'Space Mono',monospace; font-size:.7rem; color:var(--faint); text-decoration:line-through; }
-    .r-arrow  { font-family:'Space Mono',monospace; font-size:.65rem; color:var(--blue2); margin:.1rem 0; }
-    .r-after  { font-family:'Oswald',sans-serif; font-size:1.8rem; font-weight:600; color:var(--ink); line-height:1; margin-bottom:.25rem; }
+    .r-arrow  { font-family:'Space Mono',monospace; font-size:.72rem; color:var(--blue2); margin:.25rem 0; font-weight:700; letter-spacing:.04em; }
+    .r-after  { font-family:'Oswald',sans-serif; font-size:2.1rem; font-weight:700; color:var(--blue); line-height:1; margin-bottom:.25rem; }
     .r-desc   { font-size:.66rem; color:var(--dim); font-family:'Space Mono',monospace; letter-spacing:.02em; line-height:1.45; }
 
     /* ── EXPERIENCE ── */
@@ -409,6 +419,22 @@
     }
     .avail-dot { position:relative; }
     @keyframes pulse { 0%,100%{opacity:0;transform:scale(1)} 50%{opacity:.4;transform:scale(1.8)} }
+
+    /* ── PRINT ── */
+    @media print {
+      .progress-bar, .nav, .qr-wrap, .xhair { display:none !important; }
+      .title-strip .ts-controls { display:none !important; }
+      body { background:#fff !important; background-image:none !important; color:#000 !important; }
+      .sheet { border:1px solid #ccc !important; box-shadow:none !important; }
+      .sheet::before { display:none !important; }
+      .wrap { padding:0 !important; max-width:100% !important; }
+      .inner { padding:1.5rem !important; }
+      .reveal { opacity:1 !important; transform:none !important; transition:none !important; }
+      .hero::after { display:none !important; }
+      .proj-grid { grid-template-columns:1fr 1fr !important; }
+      a { color:#1565c0 !important; }
+      section { margin-bottom:1.5rem !important; }
+    }
   </style>
 </head>
 <body>
@@ -533,11 +559,11 @@
           <div class="r-desc"  data-i18n="r4-desc">GCP migration · 3 servers · 3 databases</div>
         </div>
         <div class="result">
-          <div class="r-after" style="color:var(--blue)">~40</div>
+          <div class="r-after">~40</div>
           <div class="r-desc" data-i18n="r5-desc">Reports &amp; dashboards (Finance, Ops, Exec)</div>
         </div>
         <div class="result">
-          <div class="r-after" style="color:var(--blue)">20–30</div>
+          <div class="r-after">20–30</div>
           <div class="r-desc" data-i18n="r6-desc">Monthly deployments · version control</div>
         </div>
       </div>
