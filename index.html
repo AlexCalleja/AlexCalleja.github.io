@@ -138,7 +138,7 @@
     .hero-role strong { display:block; color:var(--blue); font-size:.82rem; margin-bottom:.2rem; }
     .hero-right { text-align:right; }
     .avail-badge {
-      display:inline-flex; align-items:center; gap:.4rem;
+      display:inline-flex; align-items:center; gap:.4rem; flex-wrap:wrap;
       font-family:'Space Mono',monospace; font-size:.62rem; color:#16a34a;
       border:1px solid rgba(22,163,74,.3); background:rgba(22,163,74,.06);
       border-radius:4px; padding:.3rem .7rem; letter-spacing:.06em; margin-bottom:1rem;
@@ -353,6 +353,9 @@
       .qr-wrap      { grid-column:1/-1; flex-direction:row; justify-content:flex-start; }
       .title-block  { grid-template-columns:1fr 1fr; }
       .tb-cell.full { grid-column:1/-1; }
+      .ts-left      { display:none; }
+      .ts-right     { display:none; }
+      .hero::after  { font-size:5rem; }
     }
     @media (max-width:480px) {
       .wrap { padding:1rem 1rem 5rem; }
@@ -365,7 +368,6 @@
       .dl-section   { grid-template-columns:1fr; }
       .qr-wrap      { flex-direction:row; gap:1rem; }
       .nav a        { padding:.5rem .7rem; font-size:.6rem; letter-spacing:.1em; }
-      .ts-left      { display:none; }
     }
 
     /* ── SCROLL PROGRESS ── */
