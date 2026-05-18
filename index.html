@@ -352,10 +352,51 @@
       .nav a        { padding:.5rem .7rem; font-size:.6rem; letter-spacing:.1em; }
       .ts-left      { display:none; }
     }
+
+    /* ── SCROLL PROGRESS ── */
+    .progress-bar {
+      position:fixed; top:0; left:0; height:2px; width:0%;
+      background:linear-gradient(90deg,var(--blue),var(--blue2),var(--blue));
+      background-size:200% 100%; animation:shimmer 2s linear infinite;
+      z-index:300; transition:width .08s linear;
+    }
+    @keyframes shimmer { 0%{background-position:100%} 100%{background-position:-100%} }
+
+    /* ── HERO ENTRANCE ── */
+    .reveal.in .hero-name  { animation:slideInLeft .8s .05s cubic-bezier(.22,1,.36,1) both; }
+    .reveal.in .hero-role  { animation:fadeInUp .7s .22s cubic-bezier(.22,1,.36,1) both; }
+    .reveal.in .hero-right { animation:fadeInUp .7s .38s cubic-bezier(.22,1,.36,1) both; }
+    @keyframes slideInLeft { from{opacity:0;transform:translateX(-22px)} to{opacity:1;transform:none} }
+    @keyframes fadeInUp    { from{opacity:0;transform:translateY(12px)}  to{opacity:1;transform:none} }
+
+    /* ── ACTIVE NAV ── */
+    .nav a.active { color:#fff !important; background:rgba(255,255,255,.12); }
+
+    /* ── ENHANCED PROJ HOVER ── */
+    .proj-card {
+      transition:background .22s,border-color .22s,box-shadow .22s,transform .2s;
+    }
+    .proj-card:hover {
+      background:rgba(21,101,192,.06); border-color:rgba(21,101,192,.42);
+      box-shadow:0 6px 22px rgba(21,101,192,.14); transform:translateY(-3px);
+    }
+    html[data-theme="dark"] .proj-card:hover {
+      background:rgba(79,158,255,.09); border-color:rgba(79,158,255,.48);
+      box-shadow:0 6px 22px rgba(79,158,255,.13);
+    }
+
+    /* ── AVAIL PULSE ── */
+    .avail-dot::after {
+      content:''; position:absolute; inset:-4px; border-radius:50%;
+      border:1px solid #16a34a; animation:pulse 2s ease-in-out infinite;
+    }
+    .avail-dot { position:relative; }
+    @keyframes pulse { 0%,100%{opacity:0;transform:scale(1)} 50%{opacity:.4;transform:scale(1.8)} }
   </style>
 </head>
 <body>
 
+<div class="progress-bar" id="prog"></div>
 <nav class="nav">
   <a href="#about"      data-i18n="nav-about">About</a><div class="nsep"></div>
   <a href="#experience" data-i18n="nav-exp">Experience</a><div class="nsep"></div>
@@ -411,25 +452,25 @@
       <div class="stats-row">
         <div class="stat">
           <div class="stat-callout">1</div>
-          <div class="stat-num">17</div>
+          <div class="stat-num" data-target="17" data-suffix="">17</div>
           <div class="stat-lbl" data-i18n="s1-lbl">Years in software</div>
           <div class="stat-sub" data-i18n="s1-sub">IC → Technology Director</div>
         </div>
         <div class="stat">
           <div class="stat-callout">2</div>
-          <div class="stat-num">9</div>
+          <div class="stat-num" data-target="9" data-suffix="">9</div>
           <div class="stat-lbl" data-i18n="s2-lbl">Years of EM experience</div>
           <div class="stat-sub" data-i18n="s2-sub">4-person team · 8-12 projects/yr</div>
         </div>
         <div class="stat">
           <div class="stat-callout">3</div>
-          <div class="stat-num">120K</div>
+          <div class="stat-num" data-target="120" data-suffix="K">120K</div>
           <div class="stat-lbl" data-i18n="s3-lbl">Monthly transactions</div>
           <div class="stat-sub" data-i18n="s3-sub">Scaled from ~60K baseline</div>
         </div>
         <div class="stat">
           <div class="stat-callout">4</div>
-          <div class="stat-num">99%</div>
+          <div class="stat-num" data-target="99" data-suffix="%">99%</div>
           <div class="stat-lbl" data-i18n="s4-lbl">Platform availability</div>
           <div class="stat-sub" data-i18n="s4-sub">GCP migration · 6 months</div>
         </div>
@@ -1093,6 +1134,50 @@ const io = new IntersectionObserver(entries => {
 }, { threshold:0.06, rootMargin:'0px 0px -30px 0px' });
 
 document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* ── SCROLL PROGRESS BAR ── */
+const prog = document.getElementById('prog');
+window.addEventListener('scroll', () => {
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  prog.style.width = (window.scrollY / max * 100) + '%';
+}, { passive: true });
+
+/* ── COUNTER ANIMATION ── */
+function animateCount(el) {
+  const target = +el.dataset.target;
+  const suffix = el.dataset.suffix || '';
+  const dur = 1200;
+  const start = performance.now();
+  (function step(now) {
+    const t = Math.min((now - start) / dur, 1);
+    const ease = 1 - Math.pow(1 - t, 3);
+    el.textContent = Math.round(ease * target) + suffix;
+    if (t < 1) requestAnimationFrame(step);
+  })(start);
+}
+
+const counterIO = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting && e.target.dataset.target) {
+      animateCount(e.target);
+      counterIO.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.stat-num[data-target]').forEach(el => counterIO.observe(el));
+
+/* ── ACTIVE NAV ── */
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav a[href^="#"]');
+const navIO = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+    }
+  });
+}, { threshold: 0.25 });
+sections.forEach(s => navIO.observe(s));
 </script>
 </body>
 </html>
