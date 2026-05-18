@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Portfolio Design Explorer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&family=Space+Mono:wght@400;700&family=Karla:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0d1117;
+      color: #c9d1d9;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 13px;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── HEADER ── */
+    .hdr {
+      background: #161b22;
+      border-bottom: 1px solid #21262d;
+      padding: .5rem 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .hdr-title { font-size: .63rem; letter-spacing: .2em; text-transform: uppercase; color: #8b949e; }
+    .hdr-badge {
+      font-family: monospace; font-size: .65rem;
+      color: #58a6ff; background: rgba(88,166,255,.1);
+      border: 1px solid rgba(88,166,255,.22); border-radius: 3px; padding: .12rem .5rem;
+    }
+
+    /* ── LAYOUT ── */
+    .layout {
+      display: grid;
+      grid-template-columns: 272px 1fr;
+      grid-template-rows: 1fr auto;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* ── CONTROLS ── */
+    .ctrls {
+      grid-row: 1;
+      background: #161b22;
+      border-right: 1px solid #21262d;
+      overflow-y: auto;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: .9rem;
+    }
+    .cg-lbl {
+      font-size: .58rem; letter-spacing: .22em; text-transform: uppercase;
+      color: #8b949e; margin-bottom: .45rem;
+      display: flex; align-items: center; gap: .55rem;
+    }
+    .cg-lbl::after { content: ''; flex: 1; height: 1px; background: #21262d; }
+
+    .opts { display: flex; flex-direction: column; gap: .22rem; }
+    .opt {
+      display: flex; align-items: center; gap: .55rem;
+      padding: .36rem .62rem; border-radius: 5px; cursor: pointer;
+      border: 1px solid transparent; transition: background .12s, border-color .12s;
+      user-select: none;
+    }
+    .opt:hover { background: rgba(88,166,255,.05); }
+    .opt.on { background: rgba(88,166,255,.08); border-color: rgba(88,166,255,.28); }
+    .opt-dot {
+      width: 9px; height: 9px; border-radius: 50%;
+      border: 1.5px solid #30363d; flex-shrink: 0;
+      transition: border-color .12s, background .12s;
+    }
+    .opt.on .opt-dot { border-color: #58a6ff; background: #58a6ff; }
+    .opt-name { font-size: .73rem; color: #c9d1d9; }
+    .opt-desc { font-size: .62rem; color: #6e7681; margin-top: .08rem; }
+
+    /* presets */
+    .presets { display: flex; flex-direction: column; gap: .22rem; }
+    .ps {
+      background: none; border: 1px solid #21262d;
+      color: #8b949e; padding: .36rem .62rem; border-radius: 5px;
+      cursor: pointer; text-align: left; font-size: .72rem;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: all .12s;
+    }
+    .ps:hover { border-color: #58a6ff; color: #c9d1d9; background: rgba(88,166,255,.05); }
+    .ps-sub { font-size: .62rem; color: #6e7681; }
+
+    /* ── PREVIEW ── */
+    .pvwrap {
+      grid-row: 1;
+      overflow: auto;
+      padding: 1.8rem;
+      background: #dce8f5;
+      background-image:
+        linear-gradient(rgba(21,101,192,.2) 1px, transparent 1px),
+        linear-gradient(90deg,rgba(21,101,192,.2) 1px,transparent 1px);
+      background-size: 32px 32px;
+    }
+
+    /* ── PROMPT BAR ── */
+    .prompt-bar {
+      grid-column: 1 / -1; grid-row: 2;
+      background: #161b22; border-top: 1px solid #21262d;
+      padding: .6rem 1.2rem;
+      display: flex; align-items: flex-start; gap: .9rem;
+    }
+    .pt-lbl {
+      font-size: .58rem; letter-spacing: .18em; text-transform: uppercase;
+      color: #8b949e; flex-shrink: 0; padding-top: .18rem;
+    }
+    #pt {
+      flex: 1; font-size: .72rem; color: #c9d1d9;
+      font-family: 'Courier New', monospace; line-height: 1.55; white-space: pre-wrap;
+    }
+    .cp-btn {
+      background: rgba(88,166,255,.1); border: 1px solid rgba(88,166,255,.28);
+      color: #58a6ff; padding: .3rem .78rem; border-radius: 4px;
+      font-size: .68rem; cursor: pointer; flex-shrink: 0; transition: all .15s;
+    }
+    .cp-btn:hover { background: rgba(88,166,255,.18); }
+    .cp-btn.ok { color: #3fb950; border-color: rgba(63,185,80,.35); background: rgba(63,185,80,.08); }
+
+    /* =================================================
+       PREVIEW COMPONENTS  (all prefixed .p-)
+       ================================================= */
+    .p-sheet {
+      max-width: 780px; margin: 0 auto;
+      border: 2px solid #1565c0; position: relative;
+      font-family: 'Karla', sans-serif;
+      transition: background-color .25s, background-image .25s;
+    }
+
+    /* grid variants */
+    .p-sheet.g-subtle {
+      background-color: #dce8f5;
+      background-image:
+        linear-gradient(rgba(21,101,192,.28) 1px, transparent 1px),
+        linear-gradient(90deg,rgba(21,101,192,.28) 1px,transparent 1px),
+        linear-gradient(rgba(21,101,192,.13) 1px, transparent 1px),
+        linear-gradient(90deg,rgba(21,101,192,.13) 1px,transparent 1px);
+      background-size: 96px 96px, 96px 96px, 24px 24px, 24px 24px;
+    }
+    .p-sheet.g-strong {
+      background-color: #c9d8ec;
+      background-image:
+        linear-gradient(rgba(21,101,192,.5) 1px, transparent 1px),
+        linear-gradient(90deg,rgba(21,101,192,.5) 1px,transparent 1px),
+        linear-gradient(rgba(21,101,192,.22) 1px, transparent 1px),
+        linear-gradient(90deg,rgba(21,101,192,.22) 1px,transparent 1px);
+      background-size: 64px 64px, 64px 64px, 16px 16px, 16px 16px;
+    }
+    .p-sheet.g-off {
+      background-color: #e8f0f8;
+      background-image: none;
+    }
+
+    /* corner crosshairs */
+    .p-xh { position: absolute; width: 16px; height: 16px; }
+    .p-xh::before,.p-xh::after { content:''; position:absolute; background:#1a73e8; }
+    .p-xh::before { width:1px; height:100%; left:50%; }
+    .p-xh::after  { width:100%; height:1px; top:50%; }
+    .p-xh.tl { top:-2px; left:-2px; }
+    .p-xh.tr { top:-2px; right:-2px; transform:scaleX(-1); }
+    .p-xh.bl { bottom:-2px; left:-2px; transform:scaleY(-1); }
+    .p-xh.br { bottom:-2px; right:-2px; transform:scale(-1); }
+
+    /* title strip */
+    .p-strip {
+      background: #1565c0; padding: .5rem 1.4rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .p-strip-l { font-family:'Oswald',sans-serif; font-size:.58rem; font-weight:400; letter-spacing:.22em; text-transform:uppercase; color:rgba(255,255,255,.72); }
+    .p-strip-r { font-family:'Space Mono',monospace; font-size:.52rem; color:rgba(255,255,255,.4); }
+
+    .p-inner { padding: 1.6rem 2rem 1.8rem; }
+
+    /* ── HERO ── */
+    .p-hero {
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 1.5rem; align-items: end;
+      padding-bottom: 1.4rem;
+      border-bottom: 1px solid rgba(21,101,192,.28);
+      margin-bottom: 2rem;
+      position: relative; overflow: hidden;
+    }
+    .p-hero-name {
+      font-family: 'Oswald',sans-serif; font-size: 2.8rem; font-weight: 700;
+      line-height: .9; letter-spacing: -.01em; color: #0b1f38; text-transform: uppercase;
+      position: relative; z-index: 1;
+    }
+    .p-hero-name span { display:block; font-weight:200; font-size:.82em; color:#5b7fa6; letter-spacing:.06em; }
+    .p-hero-role {
+      margin-top: .6rem; font-family: 'Space Mono',monospace;
+      font-size: .6rem; color: #5b7fa6; line-height: 1.65; position: relative; z-index: 1;
+    }
+    .p-hero-role strong { display:block; color:#1565c0; font-size:.68rem; margin-bottom:.12rem; }
+    .p-badge {
+      display: inline-flex; align-items: center; gap: .3rem;
+      font-family: 'Space Mono',monospace; font-size: .56rem; color: #16a34a;
+      border: 1px solid rgba(22,163,74,.3); background: rgba(22,163,74,.06);
+      border-radius: 4px; padding: .22rem .55rem; white-space: nowrap;
+    }
+    .p-dot { width:5px; height:5px; background:#16a34a; border-radius:50%; }
+
+    /* hero decoration classes */
+    .p-sheet.h-watermark .p-hero::after {
+      content: 'ACL';
+      position: absolute; right: -8px; bottom: -12px;
+      font-family: 'Oswald',sans-serif; font-size: 7.5rem; font-weight: 700;
+      color: rgba(21,101,192,.07); letter-spacing: -.05em; line-height: 1;
+      pointer-events: none; user-select: none; z-index: 0;
+    }
+    .p-sheet.h-diagonal .p-hero::before {
+      content: '';
+      position: absolute; left: 38px; top: -24px;
+      width: 2px; height: calc(100% + 48px);
+      background: linear-gradient(to bottom, transparent, #c8001e 25%, #c8001e 75%, transparent);
+      transform: rotate(-6deg);
+      z-index: 0;
+    }
+
+    /* ── SECTION LABEL ── */
+    .p-sec {
+      font-family: 'Oswald',sans-serif; font-weight: 500; font-size: .58rem;
+      letter-spacing: .28em; text-transform: uppercase; color: #1565c0;
+      display: flex; align-items: center; gap: .65rem; margin-bottom: 1rem;
+    }
+    /* triangle (default) */
+    .p-sheet.l-triangle .p-sec::before { content: '△'; font-size: .5rem; }
+    .p-sheet.l-triangle .p-sec::after  { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg,rgba(21,101,192,.28),transparent); }
+    /* numbered */
+    .p-sheet.l-numbered .p-sec::before {
+      content: attr(data-n);
+      font-family: 'Space Mono',monospace; font-size: .56rem; font-weight: 700;
+      color: #fff; background: #1565c0; border-radius: 3px;
+      padding: .08rem .32rem; min-width: 22px; text-align: center;
+    }
+    .p-sheet.l-numbered .p-sec::after  { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg,rgba(21,101,192,.28),transparent); }
+    /* rule only */
+    .p-sheet.l-rule .p-sec::before { content: ''; flex-shrink: 0; width: 18px; height: 1px; background: rgba(21,101,192,.55); }
+    .p-sheet.l-rule .p-sec::after  { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg,rgba(21,101,192,.28),transparent); }
+
+    /* ── STATS ── */
+    .p-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: .75rem; margin-bottom: 1.6rem; }
+    .p-stat {
+      padding: .9rem 1rem; background: rgba(21,101,192,.04);
+      border: 1px solid rgba(21,101,192,.18); border-radius: 4px; position: relative;
+    }
+    .p-stat-callout {
+      position: absolute; top: -9px; left: -9px; width: 19px; height: 19px;
+      background: #c8001e; color: #fff; border-radius: 50%;
+      font-family: 'Space Mono',monospace; font-size: .52rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid #f5f9fd;
+    }
+    .p-stat-num { font-family:'Oswald',sans-serif; font-size:1.9rem; font-weight:700; color:#0b1f38; line-height:1; margin-bottom:.18rem; }
+    .p-stat-lbl { font-family:'Space Mono',monospace; font-size:.52rem; color:#5b7fa6; }
+
+    /* ── ABOUT ── */
+    .p-about-wrap { margin-bottom: 1.6rem; }
+    .p-about { transition: all .22s; }
+    .p-sheet.a-border .p-about { padding:1rem 1.2rem; background:rgba(21,101,192,.03); border-left:3px solid #1565c0; }
+    .p-sheet.a-card   .p-about { padding:1rem 1.2rem; background:rgba(21,101,192,.04); border:1px solid rgba(21,101,192,.2); border-radius:6px; }
+    .p-sheet.a-quote  .p-about { padding:1rem 1.2rem 1rem 2.8rem; position:relative; }
+    .p-sheet.a-quote  .p-about::before {
+      content:'"'; position:absolute; left:.4rem; top:.55rem;
+      font-family:'Oswald',sans-serif; font-size:3.2rem; font-weight:700;
+      color:rgba(21,101,192,.15); line-height:1;
+    }
+    .p-about-txt { font-size:.78rem; line-height:1.75; color:#0b1f38; }
+    .p-about-txt em { color:#1565c0; font-style:normal; font-weight:700; }
+
+    /* ── STACK CHIPS ── */
+    .p-chips { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1.6rem; }
+    .p-chip {
+      font-size: .7rem; font-weight: 600; padding: .28rem .75rem;
+      font-family: 'Karla',sans-serif; transition: border-radius .22s, background .22s, border .22s;
+    }
+    .p-chip.cl { background:#dbeafe; color:#1d4ed8; }
+    .p-chip.la { background:#dcfce7; color:#15803d; }
+    .p-chip.ar { background:#ede9fe; color:#5b21b6; }
+    .p-chip.to { background:#f1f5f9; color:#475569; }
+    .p-chip.db { background:#e0e7ff; color:#3730a3; }
+    .p-chip.fw { background:#ccfbf1; color:#0f766e; }
+
+    .p-sheet.c-square .p-chip { border-radius: 4px; border: none; }
+    .p-sheet.c-pill   .p-chip { border-radius: 100px; border: none; }
+    .p-sheet.c-outline .p-chip {
+      border-radius: 4px !important;
+      background: transparent !important;
+      border: 1.5px solid currentColor;
+      opacity: .78;
+    }
+
+    /* ── PROJECTS ── */
+    .p-proj-grid { margin-bottom: 1.2rem; display: grid; gap: .8rem; }
+    .p-sheet.p-2col    .p-proj-grid { grid-template-columns: 1fr 1fr; }
+    .p-sheet.p-3col    .p-proj-grid { grid-template-columns: 1fr 1fr 1fr; }
+    .p-sheet.p-feat    .p-proj-grid { grid-template-columns: 1fr 1fr; }
+    .p-sheet.p-feat    .p-card:first-child { grid-column: 1 / -1; }
+
+    .p-card {
+      padding: .95rem 1.1rem .85rem;
+      border: 1px solid rgba(21,101,192,.18); border-radius: 4px;
+      background: rgba(21,101,192,.02); position: relative;
+      transition: all .2s;
+    }
+    .p-card:hover { background:rgba(21,101,192,.05); border-color:rgba(21,101,192,.35); transform:translateY(-2px); box-shadow:0 4px 16px rgba(21,101,192,.1); }
+    .p-card-num {
+      position:absolute; top:-9px; left:-9px; width:19px; height:19px;
+      background:#1565c0; color:#fff; border-radius:50%;
+      font-family:'Space Mono',monospace; font-size:.5rem; font-weight:700;
+      display:flex; align-items:center; justify-content:center;
+      border:2px solid #f5f9fd;
+    }
+    .p-card-title { font-family:'Oswald',sans-serif; font-size:.9rem; font-weight:600; color:#0b1f38; text-transform:uppercase; letter-spacing:.03em; margin-bottom:.18rem; }
+    .p-card-ctx   { font-family:'Space Mono',monospace; font-size:.52rem; color:#9ab5d0; margin-bottom:.4rem; }
+    .p-card-metric{ font-family:'Space Mono',monospace; font-size:.56rem; color:#1a73e8; font-weight:700; margin-bottom:.45rem; }
+    .p-card-chips { display:flex; flex-wrap:wrap; gap:.28rem; }
+    .p-card-chip  {
+      font-size:.58rem; font-weight:600; padding:.14rem .45rem;
+      border-radius:3px; background:rgba(21,101,192,.07);
+      border:1px solid rgba(21,101,192,.18); color:#5b7fa6;
+      font-family:'Space Mono',monospace;
+    }
+
+    /* ── TIMELINE (experience teaser) ── */
+    .p-timeline { position:relative; padding-left:1.6rem; margin-bottom:0; }
+    .p-timeline::before {
+      content:''; position:absolute; left:6px; top:8px; bottom:8px; width:1px;
+      background:repeating-linear-gradient(to bottom,#1a73e8 0,#1a73e8 4px,transparent 4px,transparent 10px);
+    }
+    .p-titem { position:relative; margin-bottom:1.1rem; }
+    .p-titem:last-child { margin-bottom:0; }
+    .p-tdot { position:absolute; left:-22px; top:3px; width:11px; height:11px; border-radius:50%; border:2px solid #1a73e8; background:#f5f9fd; }
+    .p-tdot.cur { background:#1a73e8; box-shadow:0 0 0 3px rgba(26,115,232,.18); }
+    .p-tco { font-family:'Oswald',sans-serif; font-size:.88rem; font-weight:600; color:#0b1f38; text-transform:uppercase; letter-spacing:.04em; }
+    .p-trole { font-size:.72rem; color:#1565c0; font-weight:600; margin-top:.1rem; }
+    .p-tdates { font-family:'Space Mono',monospace; font-size:.56rem; color:#9ab5d0; }
+
+    /* ── DIVIDER between sections ── */
+    .p-divider { height:1px; background:rgba(21,101,192,.12); margin: 1.6rem 0; }
+  </style>
+</head>
+<body>
+
+<div class="hdr">
+  <span class="hdr-title">Portfolio Design Explorer — AlexCalleja.github.io</span>
+  <span class="hdr-badge">index.html · 6 improvement areas</span>
+</div>
+
+<div class="layout">
+
+  <!-- ──────────────── CONTROLS ──────────────── -->
+  <div class="ctrls">
+
+    <div>
+      <div class="cg-lbl">Background Grid</div>
+      <div class="opts">
+        <label class="opt on" data-g="grid" data-v="subtle">
+          <span class="opt-dot"></span>
+          <span><div class="opt-name">Subtle (actual)</div><div class="opt-desc">Blueprint fino, toque ligero</div></span>
+        </label>
+        <label class="opt" data-g="grid" data-v="strong">
+          <span class="opt-dot"></span>
+          <span><div class="opt-name">Strong</div><div class="opt-desc">Cuadrícula densa, más técnico</div></span>
+        </label>
+        <label class="opt" data-g="grid" data-v="off">
+          <span class="opt-dot"></span>
+          <span><div class="opt-name">Off</div><div class="opt-desc">Fondo sólido, lectura más limpia</div></span>
+        </label>
+      </div>
+    </div>
+
+    <div>
+      <div class="cg-lbl">Section Labels</div>
+      <div class="opts">
+        <label class="opt on" data-g="label" data-v="triangle">
+          <span class="opt-dot"></span>
+          <span><div class="opt-name">△ Triángulo (actual)</div><div class="opt-desc">Símbolo de callout de ingeniería</div></span>
+        </label>
+        <label class="opt" data-g="label" data-v="numbered">
+          <span class="opt-dot"></span>
+          <span><div class="opt-name">01 Numerado</div><div class="opt-desc">Índice en badge azul</div></span>
+        </label>
+        <label class="opt" data-g="label" data-v="rule">
+          <span class="opt-dot"></span>
+          <span><div class="opt-name">── Solo línea</div><div class="opt-desc">Regla horizontal, prefix mínimo</div></span>
+        </label>
+      </div>
+    </div>
+
+    <div>
+      <div class="cg-lbl">Skill Chips</div>
+      <div class="opts">
+        <label class="opt on" data-g="chip" data-v="square">
+          <span class="opt-dot"></span>
+          <span><div class="opt-name">Cuadrado (actual)</div><div class="opt-desc">4px radius, fondo sólido</div></span>
+        </label>
+        <label class="opt" data-g="chip" data-v="pill">
+          <span class="opt-dot"></span>
+          <span><div class="opt-name">Pill</div><div class="opt-desc">Bordes redondeados, look más suave</div></span>
+        </label>
+        <label class="opt" data-g="chip" data-v="outline">
+          <span class="opt-dot"></span>
+          <span><div class="opt-name">Outlined</div><div class="opt-desc">Transparente, solo borde</div></span>
+        </label>
+      </div>
+    </div>
+
+    <div>
+      <div class="cg-lbl">Project Cards</div>
+      <div class="opts">
+        <label class="opt on" data-g="proj" data-v="2col">
+          <span class="opt-dot"></span>
+          <span><div class="opt-name">2 columnas (actual)</div><div class="opt-desc">Espacioso, 2 cards por fila</div></span>
+        </label>
+        <label class="opt" data-g="proj" data-v="3col">
+          <span class="opt-dot"></span>
+          <span><div class="opt-name">3 columnas</div><div class="opt-desc">Grid compacto, más proyectos visibles</div></span>
+        </label>
+        <label class="opt" data-g="proj" data-v="feat">
+          <span class="opt-dot"></span>
+          <span><div class="opt-name">Featured first</div><div class="opt-desc">P1 ancho completo, resto 2-col</div></span>
+        </label>
+      </div>
+    </div>
+
+    <div>
+      <div class="cg-lbl">About / Profile</div>
+      <div class="opts">
+        <label class="opt on" data-g="about" data-v="border">
+          <span class="opt-dot"></span>
+          <span><div class="opt-name">Borde izquierdo (actual)</div><div class="opt-desc">Línea azul de acento a la izquierda</div></span>
+        </label>
+        <label class="opt" data-g="about" data-v="card">
+          <span class="opt-dot"></span>
+          <span><div class="opt-name">Full card</div><div class="opt-desc">Box con borde y fondo</div></span>
+        </label>
+        <label class="opt" data-g="about" data-v="quote">
+          <span class="opt-dot"></span>
+          <span><div class="opt-name">Quote style</div><div class="opt-desc">Comilla decorativa grande</div></span>
+        </label>
+      </div>
+    </div>
+
+    <div>
+      <div class="cg-lbl">Hero Decoration</div>
+      <div class="opts">
+        <label class="opt on" data-g="hero" data-v="clean">
+          <span class="opt-dot"></span>
+          <span><div class="opt-name">Limpio (actual)</div><div class="opt-desc">Sin decoración extra</div></span>
+        </label>
+        <label class="opt" data-g="hero" data-v="watermark">
+          <span class="opt-dot"></span>
+          <span><div class="opt-name">Monogram watermark</div><div class="opt-desc">"ACL" fantasma detrás del nombre</div></span>
+        </label>
+        <label class="opt" data-g="hero" data-v="diagonal">
+          <span class="opt-dot"></span>
+          <span><div class="opt-name">Diagonal rule</div><div class="opt-desc">Línea roja inclinada de acento</div></span>
+        </label>
+      </div>
+    </div>
+
+    <div style="margin-top:.4rem">
+      <div class="cg-lbl">Presets</div>
+      <div class="presets">
+        <button class="ps" data-preset="current">
+          <span>Current</span><span class="ps-sub">Todo igual que ahora</span>
+        </button>
+        <button class="ps" data-preset="refined">
+          <span>Refined</span><span class="ps-sub">Numerado · Pill · Card about</span>
+        </button>
+        <button class="ps" data-preset="bold">
+          <span>Bold</span><span class="ps-sub">Grid fuerte · Featured · Watermark</span>
+        </button>
+        <button class="ps" data-preset="minimal">
+          <span>Minimal</span><span class="ps-sub">Sin grid · Outlined · Rule labels</span>
+        </button>
+        <button class="ps" data-preset="editorial">
+          <span>Editorial</span><span class="ps-sub">3-col · Numerado · Quote about</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ──────────────── PREVIEW ──────────────── -->
+  <div class="pvwrap">
+    <div class="p-sheet g-subtle l-triangle c-square p-2col a-border h-clean" id="pv">
+
+      <div class="p-xh tl"></div><div class="p-xh tr"></div>
+      <div class="p-xh bl"></div><div class="p-xh br"></div>
+
+      <div class="p-strip">
+        <span class="p-strip-l">Engineering Portfolio — Alejandro Calleja Luna</span>
+        <span class="p-strip-r">REV 2026.05 | alexcalleja.github.io</span>
+      </div>
+
+      <div class="p-inner">
+
+        <!-- HERO -->
+        <div class="p-hero">
+          <div>
+            <div class="p-hero-name"><span>Alejandro</span>Calleja Luna</div>
+            <div class="p-hero-role">
+              <strong>Senior Engineering Manager · Technology Director</strong>
+              9 yrs leadership · 17 yrs software · GCP · Python · Java
+            </div>
+          </div>
+          <div>
+            <div class="p-badge"><span class="p-dot"></span>Open to work · Remote · USA</div>
+          </div>
+        </div>
+
+        <!-- KEY METRICS -->
+        <div class="p-sec" data-n="01">Key Metrics</div>
+        <div class="p-stats">
+          <div class="p-stat">
+            <div class="p-stat-callout">1</div>
+            <div class="p-stat-num">17</div>
+            <div class="p-stat-lbl">Years in software</div>
+          </div>
+          <div class="p-stat">
+            <div class="p-stat-callout">2</div>
+            <div class="p-stat-num">9</div>
+            <div class="p-stat-lbl">Years EM experience</div>
+          </div>
+          <div class="p-stat">
+            <div class="p-stat-callout">3</div>
+            <div class="p-stat-num">120K</div>
+            <div class="p-stat-lbl">Monthly transactions</div>
+          </div>
+          <div class="p-stat">
+            <div class="p-stat-callout">4</div>
+            <div class="p-stat-num">99%</div>
+            <div class="p-stat-lbl">Platform availability</div>
+          </div>
+        </div>
+
+        <!-- PROFILE -->
+        <div class="p-sec" data-n="02">Profile</div>
+        <div class="p-about-wrap">
+          <div class="p-about">
+            <div class="p-about-txt">
+              Senior Engineering Manager combining <em>9 years</em> of engineering leadership with deep technical foundation from <em>17 years</em> in software. Led <em>GCP cloud migration</em> raising availability from 97% to 99%, architected platforms processing <em>120K+ monthly transactions</em>, and managed distributed teams through ISO 27001 certification.
+            </div>
+          </div>
+        </div>
+
+        <!-- STACK -->
+        <div class="p-sec" data-n="03">Tech Stack</div>
+        <div class="p-chips">
+          <span class="p-chip cl">GCP</span>
+          <span class="p-chip cl">Cloud Run</span>
+          <span class="p-chip cl">Cloud SQL</span>
+          <span class="p-chip la">Python</span>
+          <span class="p-chip la">Java</span>
+          <span class="p-chip la">SQL</span>
+          <span class="p-chip fw">FastAPI</span>
+          <span class="p-chip fw">Next.js</span>
+          <span class="p-chip ar">Clean Architecture</span>
+          <span class="p-chip ar">Microservices</span>
+          <span class="p-chip db">PostgreSQL</span>
+          <span class="p-chip db">MySQL</span>
+          <span class="p-chip to">Docker</span>
+          <span class="p-chip to">GitHub Actions</span>
+        </div>
+
+        <!-- KEY DELIVERABLES -->
+        <div class="p-sec" data-n="04">Key Deliverables</div>
+        <div class="p-proj-grid">
+          <div class="p-card">
+            <div class="p-card-num">P1</div>
+            <div class="p-card-title">GCP Cloud Migration</div>
+            <div class="p-card-ctx">ITCE · Technology Director · 2024</div>
+            <div class="p-card-metric">97% → 99% availability · 3 servers · 3 DBs · 6 months</div>
+            <div class="p-card-chips">
+              <span class="p-card-chip">GCP</span>
+              <span class="p-card-chip">Compute Engine</span>
+              <span class="p-card-chip">Cloud SQL</span>
+            </div>
+          </div>
+          <div class="p-card">
+            <div class="p-card-num">P2</div>
+            <div class="p-card-title">Customs Validation Engine</div>
+            <div class="p-card-ctx">ITCE · Software Engineer · 2008–2016</div>
+            <div class="p-card-metric">Monolítico → distribuido · 40 min → 5 min</div>
+            <div class="p-card-chips">
+              <span class="p-card-chip">Java</span>
+              <span class="p-card-chip">Distributed</span>
+              <span class="p-card-chip">MySQL</span>
+            </div>
+          </div>
+          <div class="p-card">
+            <div class="p-card-num">P3</div>
+            <div class="p-card-title">AMACARGA Platform</div>
+            <div class="p-card-ctx">Aduanapp · 2024–present</div>
+            <div class="p-card-metric">Next.js + FastAPI · Multi-tenant SaaS</div>
+            <div class="p-card-chips">
+              <span class="p-card-chip">Next.js</span>
+              <span class="p-card-chip">FastAPI</span>
+              <span class="p-card-chip">Railway</span>
+            </div>
+          </div>
+          <div class="p-card">
+            <div class="p-card-num">P4</div>
+            <div class="p-card-title">ISO 27001 Certification</div>
+            <div class="p-card-ctx">ITCE · Governance · 2022</div>
+            <div class="p-card-metric">Full ISMS · 15+ audits · cross-company</div>
+            <div class="p-card-chips">
+              <span class="p-card-chip">ISO 27001</span>
+              <span class="p-card-chip">ISMS</span>
+              <span class="p-card-chip">Audit</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- EXPERIENCE teaser -->
+        <div class="p-sec" data-n="05">Experience</div>
+        <div class="p-timeline">
+          <div class="p-titem">
+            <div class="p-tdot cur"></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline">
+              <span class="p-tco">Aduanapp</span>
+              <span class="p-tdates">Jul 2025 – Present</span>
+            </div>
+            <div class="p-trole">AI &amp; Data Engineer (Part-time)</div>
+          </div>
+          <div class="p-titem">
+            <div class="p-tdot"></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline">
+              <span class="p-tco">ITCE</span>
+              <span class="p-tdates">Jan 2020 – May 2025</span>
+            </div>
+            <div class="p-trole">Technology Director (Senior Engineering Manager)</div>
+          </div>
+          <div class="p-titem">
+            <div class="p-tdot"></div>
+            <div style="display:flex;justify-content:space-between;align-items:baseline">
+              <span class="p-tco">ITCE</span>
+              <span class="p-tdates">Jun 2008 – Dec 2019</span>
+            </div>
+            <div class="p-trole">Development Subdirector / Software Engineer</div>
+          </div>
+        </div>
+
+      </div><!-- /p-inner -->
+    </div><!-- /p-sheet -->
+  </div><!-- /pvwrap -->
+
+  <!-- ──────────────── PROMPT ──────────────── -->
+  <div class="prompt-bar">
+    <div class="pt-lbl">Prompt</div>
+    <div id="pt">Ningún cambio seleccionado — todos los ajustes están en sus valores actuales.</div>
+    <button class="cp-btn" id="cpbtn">Copiar</button>
+  </div>
+
+</div><!-- /layout -->
+
+<script>
+const DEFAULTS = { grid:'subtle', label:'triangle', chip:'square', proj:'2col', about:'border', hero:'clean' };
+const state = { ...DEFAULTS };
+
+const PRESETS = {
+  current:   { grid:'subtle',  label:'triangle', chip:'square',   proj:'2col',  about:'border', hero:'clean'     },
+  refined:   { grid:'subtle',  label:'numbered', chip:'pill',     proj:'2col',  about:'card',   hero:'clean'     },
+  bold:      { grid:'strong',  label:'triangle', chip:'square',   proj:'feat',  about:'card',   hero:'watermark' },
+  minimal:   { grid:'off',     label:'rule',     chip:'outline',  proj:'3col',  about:'quote',  hero:'clean'     },
+  editorial: { grid:'subtle',  label:'numbered', chip:'pill',     proj:'3col',  about:'quote',  hero:'watermark' },
+};
+
+const CLASS_MAP = {
+  grid:  { subtle:'g-subtle', strong:'g-strong', off:'g-off' },
+  label: { triangle:'l-triangle', numbered:'l-numbered', rule:'l-rule' },
+  chip:  { square:'c-square', pill:'c-pill', outline:'c-outline' },
+  proj:  { '2col':'p-2col', '3col':'p-3col', feat:'p-feat' },
+  about: { border:'a-border', card:'a-card', quote:'a-quote' },
+  hero:  { clean:'h-clean', watermark:'h-watermark', diagonal:'h-diagonal' },
+};
+
+const pv = document.getElementById('pv');
+
+function applyState() {
+  for (const [group, vals] of Object.entries(CLASS_MAP)) {
+    for (const cls of Object.values(vals)) pv.classList.remove(cls);
+    pv.classList.add(vals[state[group]]);
+  }
+  document.querySelectorAll('.opt').forEach(el => {
+    if (el.dataset.g && el.dataset.v)
+      el.classList.toggle('on', state[el.dataset.g] === el.dataset.v);
+  });
+  updatePrompt();
+}
+
+const DESCRIPTIONS = {
+  grid:  { strong:'background grid más denso y prominente (look más técnico)',   off:'background grid eliminado (fondo sólido, lectura más limpia)' },
+  label: { numbered:'section labels numerados (01, 02...) con badge azul',       rule:'section labels con solo línea horizontal, sin símbolo' },
+  chip:  { pill:'skill chips con bordes completamente redondeados (pill shape)', outline:'skill chips solo con borde, sin fondo de color' },
+  proj:  { '3col':'grid de proyectos en 3 columnas (más compacto)',             feat:'proyecto P1 en ancho completo, el resto en 2 columnas' },
+  about: { card:'sección Profile como card con borde y fondo',                  quote:'sección Profile con comilla decorativa grande' },
+  hero:  { watermark:'monograma "ACL" fantasma detrás del nombre en el hero',   diagonal:'línea roja diagonal de acento en el hero' },
+};
+
+function updatePrompt() {
+  const changes = [];
+  for (const [group, def] of Object.entries(DEFAULTS)) {
+    if (state[group] !== def && DESCRIPTIONS[group]?.[state[group]]) {
+      changes.push(DESCRIPTIONS[group][state[group]]);
+    }
+  }
+  const el = document.getElementById('pt');
+  if (!changes.length) {
+    el.textContent = 'Ningún cambio seleccionado — todos los ajustes están en sus valores actuales.';
+  } else if (changes.length === 1) {
+    el.textContent = `Aplicar en index.html: ${changes[0]}.`;
+  } else {
+    const last = changes.pop();
+    el.textContent = `Aplicar en index.html: ${changes.join(', ')}, y ${last}.`;
+  }
+}
+
+document.querySelectorAll('.opt').forEach(el => {
+  el.addEventListener('click', () => {
+    if (el.dataset.g && el.dataset.v) {
+      state[el.dataset.g] = el.dataset.v;
+      applyState();
+    }
+  });
+});
+
+document.querySelectorAll('.ps').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const p = PRESETS[btn.dataset.preset];
+    if (p) { Object.assign(state, p); applyState(); }
+  });
+});
+
+const cpBtn = document.getElementById('cpbtn');
+cpBtn.addEventListener('click', () => {
+  navigator.clipboard.writeText(document.getElementById('pt').textContent).then(() => {
+    cpBtn.textContent = '¡Copiado!';
+    cpBtn.classList.add('ok');
+    setTimeout(() => { cpBtn.textContent = 'Copiar'; cpBtn.classList.remove('ok'); }, 2000);
+  });
+});
+
+applyState();
+</script>
+</body>
+</html>

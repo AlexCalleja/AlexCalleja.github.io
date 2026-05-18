@@ -1,2 +1,5 @@
 # Claude Code — configuración local de sesión (personal, no compartir)
 .claude/settings.local.json
+
+# CVs en PDF — se actualizan frecuentemente, no tiene sentido trackearlos
+*.pdf
