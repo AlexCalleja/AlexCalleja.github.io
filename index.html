@@ -1,1116 +1,1098 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Alejandro Calleja Luna — Engineering Manager</title>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <title>Alejandro Calleja Luna — Engineering Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Karla:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
-
-    /* ══════════════════════════════════════
-       THEME VARIABLES
-    ══════════════════════════════════════ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      /* Light — Warm Executive (default) */
-      --bg:        #faf7f0;
-      --bg2:       #ffffff;
-      --bg3:       #f3ede3;
-      --border:    #d8cfc4;
-      --green:     #1e3a5f;
-      --green-dim: #2d5282;
-      --cyan:      #0369a1;
-      --yellow:    #92400e;
-      --purple:    #5b21b6;
-      --red:       #b91c1c;
-      --white:     #1e293b;
-      --gray:      #64748b;
-      --mono:      'JetBrains Mono', monospace;
-      --sans:      'Inter', system-ui, sans-serif;
-      --green-rgb: 30, 58, 95;
-      --cyan-rgb:  3, 105, 161;
-      --yellow-rgb:146, 64, 14;
-      --purple-rgb:91, 33, 182;
-      --red-rgb:   185, 28, 28;
-      --nav-bg:    rgba(250,247,240,.92);
-      --output-bg: rgba(0,0,0,.06);
+      --paper: #dce8f5; --ink: #0b1f38; --blue: #1565c0; --blue2: #1a73e8;
+      --dim: #5b7fa6; --faint: #9ab5d0; --red: #c8001e; --white: #f5f9fd;
+      --line: rgba(21,101,192,.14); --lineb: rgba(21,101,192,.28); --strip: #1565c0;
     }
 
-    [data-theme="dark"] {
-      --bg:        #0d1117;
-      --bg2:       #161b22;
-      --bg3:       #21262d;
-      --border:    #30363d;
-      --green:     #3fb950;
-      --green-dim: #238636;
-      --cyan:      #58d4e8;
-      --yellow:    #e3b341;
-      --purple:    #bc8cff;
-      --red:       #f85149;
-      --white:     #e6edf3;
-      --gray:      #8b949e;
-      --green-rgb: 63, 185, 80;
-      --cyan-rgb:  88, 212, 232;
-      --yellow-rgb:227, 179, 65;
-      --purple-rgb:188, 140, 255;
-      --red-rgb:   248, 81, 73;
-      --nav-bg:    rgba(13,17,23,.85);
-      --output-bg: rgba(0,0,0,.3);
+    html[data-theme="dark"] {
+      --paper: #04111f; --ink: #c5dcf2; --blue: #4f9eff; --blue2: #6ab0ff;
+      --dim: #7fa9d4; --faint: #4a6f96; --red: #ff5c73; --white: #0b1d30;
+      --line: rgba(79,158,255,.1); --lineb: rgba(79,158,255,.22); --strip: #071829;
     }
 
-    /* ════ MINIMAL THEME ════ */
-    body.style-minimal {
-      --bg:        #f8fafc;
-      --bg2:       #ffffff;
-      --bg3:       #f1f5f9;
-      --border:    #e2e8f0;
-      --green:     #2563eb;
-      --green-dim: #1d4ed8;
-      --cyan:      #0891b2;
-      --yellow:    #d97706;
-      --purple:    #7c3aed;
-      --red:       #dc2626;
-      --white:     #0f172a;
-      --gray:      #64748b;
-      --green-rgb: 37, 99, 235;
-      --cyan-rgb:  8, 145, 178;
-      --yellow-rgb:217, 119, 6;
-      --purple-rgb:124, 58, 237;
-      --red-rgb:   220, 38, 38;
-      --nav-bg:    rgba(248,250,252,.97);
-      --output-bg: rgba(37,99,235,.04);
-      font-family: var(--sans);
-    }
-    body.style-minimal::before,
-    body.style-minimal::after { display: none !important; }
-
-    body.style-minimal .nav-logo,
-    body.style-minimal .nav-links a,
-    body.style-minimal .section-title,
-    body.style-minimal .skill-category,
-    body.style-minimal .link-title,
-    body.style-minimal .link-sub,
-    body.style-minimal .project-name,
-    body.style-minimal .project-desc,
-    body.style-minimal .project-meta,
-    body.style-minimal .contact-body,
-    body.style-minimal footer,
-    body.style-minimal .prompt { font-family: var(--sans); }
-
-    body.style-minimal .section-title {
-      font-size: 1rem; font-weight: 700;
-      text-transform: none; letter-spacing: 0;
-      color: var(--white); border-bottom-width: 2px;
-    }
-    body.style-minimal .section-title::before { content: ''; }
-    body.style-minimal .prompt { opacity: .55; font-size: .75rem; }
-
-    body.style-minimal .terminal-window {
-      border-radius: 16px;
-      box-shadow: 0 4px 32px rgba(0,0,0,.08);
-      border-color: var(--border);
-    }
-    body.style-minimal .terminal-header { background: #f1f5f9; }
-    body.style-minimal .dot { display: none; }
-    body.style-minimal .terminal-title {
-      text-align: left; font-family: var(--sans);
-      font-size: .8rem; letter-spacing: 0;
-    }
-    body.style-minimal .terminal-title::before { content: 'profile.json — Alejandro Calleja'; }
-    body.style-minimal .output-block {
-      border-left-width: 4px; border-radius: 0 10px 10px 0;
+    html[data-theme="dark"] body {
+      background-color: #040e1c;
+      background-image:
+        linear-gradient(rgba(79,158,255,.2) 1px, transparent 1px),
+        linear-gradient(90deg,rgba(79,158,255,.2) 1px,transparent 1px),
+        linear-gradient(rgba(79,158,255,.08) 1px, transparent 1px),
+        linear-gradient(90deg,rgba(79,158,255,.08) 1px,transparent 1px);
+      background-size: 128px 128px,128px 128px,32px 32px,32px 32px;
     }
 
-    body.style-minimal .skill-card,
-    body.style-minimal .link-card,
-    body.style-minimal .project-card,
-    body.style-minimal .code-block,
-    body.style-minimal .contact-terminal {
-      border-color: transparent;
-      box-shadow: 0 2px 16px rgba(0,0,0,.07);
-      border-radius: 14px;
-    }
-    body.style-minimal .skill-card:hover,
-    body.style-minimal .link-card:hover { box-shadow: 0 4px 24px rgba(37,99,235,.15); }
+    html[data-theme="dark"] .sheet      { background: rgba(6,20,38,.97); }
+    html[data-theme="dark"] .sheet::before { border-color: rgba(79,158,255,.28); }
+    html[data-theme="dark"] .stat       { background: rgba(79,158,255,.06); border-color: rgba(79,158,255,.2); }
+    html[data-theme="dark"] .about-block{ background: rgba(79,158,255,.05); }
+    html[data-theme="dark"] .result     { background: rgba(6,20,38,.8); border-color: rgba(79,158,255,.2); }
+    html[data-theme="dark"] .edu-block  { background: rgba(79,158,255,.04); border-color: rgba(79,158,255,.2); }
+    html[data-theme="dark"] .proj-card  { background: rgba(79,158,255,.04); border-color: rgba(79,158,255,.2); }
+    html[data-theme="dark"] .proj-card:hover { background: rgba(79,158,255,.08); border-color: rgba(79,158,255,.4); }
+    html[data-theme="dark"] .spec-table tr { border-bottom-color: rgba(79,158,255,.12); }
+    html[data-theme="dark"] .sc-cloud   { background: rgba(29,78,216,.25);  color: #93c5fd; }
+    html[data-theme="dark"] .sc-lang    { background: rgba(21,128,61,.25);  color: #86efac; }
+    html[data-theme="dark"] .sc-db      { background: rgba(30,64,175,.22);  color: #a5b4fc; }
+    html[data-theme="dark"] .sc-arch    { background: rgba(91,33,182,.25);  color: #c4b5fd; }
+    html[data-theme="dark"] .sc-meth    { background: rgba(146,64,14,.25);  color: #fcd34d; }
+    html[data-theme="dark"] .sc-fw      { background: rgba(15,118,110,.25); color: #5eead4; }
+    html[data-theme="dark"] .sc-tool    { background: rgba(51,65,85,.4);    color: #94a3b8; }
+    html[data-theme="dark"] .sc-sec     { background: rgba(185,28,28,.25);  color: #fca5a5; }
+    html[data-theme="dark"] .title-block,
+    html[data-theme="dark"] .tb-cell    { border-color: rgba(79,158,255,.22); }
+    html[data-theme="dark"] .ec         { background: rgba(79,158,255,.08); border-color: rgba(79,158,255,.2); }
+    html[data-theme="dark"] .dl-btn     { background: rgba(79,158,255,.07); border-color: rgba(79,158,255,.2); }
+    html[data-theme="dark"] .dl-btn:hover{ background: rgba(79,158,255,.14); border-color: var(--blue); }
+    html[data-theme="dark"] .qr-wrap    { background: rgba(79,158,255,.06); border-color: rgba(79,158,255,.2); }
 
-    body.style-minimal .skill-category {
-      font-size: .75rem; font-weight: 700; letter-spacing: .04em;
-      font-family: var(--sans);
-    }
-    body.style-minimal .nav-logo { font-weight: 700; letter-spacing: -.01em; }
-    body.style-minimal .nav-logo span { font-weight: 300; }
-    /* minimal dark mode */
-    html[data-theme="dark"] body.style-minimal {
-      --bg:        #0f172a;
-      --bg2:       #1e293b;
-      --bg3:       #0f172a;
-      --border:    #334155;
-      --green:     #60a5fa;
-      --green-dim: #3b82f6;
-      --cyan:      #22d3ee;
-      --yellow:    #fbbf24;
-      --purple:    #a78bfa;
-      --red:       #f87171;
-      --white:     #f1f5f9;
-      --gray:      #94a3b8;
-      --green-rgb: 96, 165, 250;
-      --cyan-rgb:  34, 211, 238;
-      --yellow-rgb:251, 191, 36;
-      --purple-rgb:167, 139, 250;
-      --red-rgb:   248, 113, 113;
-      --nav-bg:    rgba(15,23,42,.97);
-      --output-bg: rgba(96,165,250,.06);
-    }
-    html[data-theme="dark"] body.style-minimal .terminal-header { background: #1e293b; }
-    html[data-theme="dark"] body.style-minimal .skill-card,
-    html[data-theme="dark"] body.style-minimal .link-card,
-    html[data-theme="dark"] body.style-minimal .project-card,
-    html[data-theme="dark"] body.style-minimal .code-block,
-    html[data-theme="dark"] body.style-minimal .contact-terminal {
-      box-shadow: none; border-color: var(--border);
-    }
-    html[data-theme="dark"] body.style-minimal .skill-card:hover,
-    html[data-theme="dark"] body.style-minimal .link-card:hover {
-      box-shadow: 0 4px 24px rgba(96,165,250,.12);
-    }
-    /* no scanlines in minimal dark */
-    html[data-theme="dark"] body.style-minimal::before,
-    html[data-theme="dark"] body.style-minimal::after { display: none; }
-
-    /* ════ EXECUTIVE THEME ════ */
-    body.style-executive {
-      --bg:        #f5f0e8;
-      --bg2:       #ffffff;
-      --bg3:       #0f2137;
-      --border:    #e0d8cc;
-      --green:     #0f2137;
-      --green-dim: #c5922e;
-      --cyan:      #c5922e;
-      --yellow:    #c5922e;
-      --purple:    #0f2137;
-      --red:       #c0392b;
-      --white:     #0f2137;
-      --gray:      #7a7060;
-      --green-rgb: 15, 33, 55;
-      --cyan-rgb:  197, 146, 46;
-      --yellow-rgb:197, 146, 46;
-      --purple-rgb:15, 33, 55;
-      --red-rgb:   192, 57, 43;
-      --nav-bg:    rgba(15,33,55,.97);
-      --output-bg: rgba(197,146,46,.06);
-    }
-    body.style-executive::before,
-    body.style-executive::after { display: none !important; }
-
-    body.style-executive nav {
-      background: rgba(15,33,55,.97);
-      border-bottom-color: rgba(197,146,46,.25);
-    }
-    body.style-executive .nav-logo { color: #c5922e; }
-    body.style-executive .nav-logo span { color: rgba(255,255,255,.4); }
-    body.style-executive .nav-links a { color: rgba(255,255,255,.65); }
-    body.style-executive .nav-links a:hover { color: #c5922e; }
-    body.style-executive .nav-links a::before { color: rgba(197,146,46,.5); }
-    body.style-executive .theme-toggle { display: none; }
-    body.style-executive .nav-hamburger {
-      border-color: rgba(255,255,255,.2); color: rgba(255,255,255,.6);
-    }
-    body.style-executive .nav-hamburger:hover { color: #c5922e; border-color: #c5922e; }
-
-    body.style-executive .terminal-window {
-      background: #0f2137;
-      border-color: rgba(197,146,46,.25);
-      border-radius: 4px;
-      box-shadow: 0 8px 48px rgba(15,33,55,.25);
-    }
-    body.style-executive .terminal-header {
-      background: #0a1929;
-      border-bottom-color: rgba(197,146,46,.15);
-    }
-    body.style-executive .terminal-body { background: #0f2137; }
-    body.style-executive .output-block { border-left-color: #c5922e; }
-    body.style-executive .c-key { color: #e8dcc8 !important; }
-    body.style-executive .c-str { color: #a8c9e0 !important; }
-    body.style-executive .c-val,
-    body.style-executive .c-num,
-    body.style-executive .c-prompt { color: #c5922e !important; }
-    body.style-executive .c-comment { color: rgba(232,220,200,.4) !important; }
-    body.style-executive .c-cmd { color: #e8dcc8 !important; }
-    body.style-executive .cursor { background: #c5922e; }
-    body.style-executive .typed { border-right-color: #c5922e; }
-
-    body.style-executive .section-title {
-      font-size: .68rem; text-transform: uppercase;
-      letter-spacing: .2em; color: #0f2137;
-      border-bottom-color: #0f2137; font-weight: 700;
-    }
-    body.style-executive .section-title::before { color: #c5922e; }
-
-    body.style-executive .skill-card:hover { border-color: #c5922e; }
-    body.style-executive .link-card:hover { border-color: #c5922e; background: rgba(197,146,46,.04); }
-    body.style-executive .link-card:hover .link-arrow { color: #c5922e; }
-    body.style-executive .project-card:hover { border-color: #c5922e; }
-    body.style-executive .project-name { color: #0f2137; font-weight: 600; }
-    body.style-executive .file-dot { background: #c5922e; }
-    body.style-executive .code-block-header { background: #0f2137; color: rgba(197,146,46,.8); }
-    body.style-executive .stat span { color: #c5922e; }
-    body.style-executive .prompt .user { color: #c5922e; }
-    body.style-executive .prompt .host { color: rgba(15,33,55,.45); }
-    body.style-executive .prompt .path { color: rgba(15,33,55,.65); }
-    body.style-executive .prompt .arrow { color: #c5922e; }
-    body.style-executive .qr-fab { background: #c5922e; border-color: #c5922e; }
-    body.style-executive .qr-fab:hover { background: #a37524; }
-
-    /* ══════════════════════════
-       SCANLINES (dark terminal only)
-    ══════════════════════════ */
-    html:not([data-theme="dark"]) body:not(.style-terminal) ~ *,
-    html:not([data-theme="dark"]) body::before,
-    html:not([data-theme="dark"]) body::after { display: none; }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--bg);
-      color: var(--white);
-      font-family: var(--mono);
+      font-family: 'Karla', system-ui, sans-serif;
+      background-color: var(--paper);
+      background-image:
+        linear-gradient(var(--lineb) 1px,transparent 1px),
+        linear-gradient(90deg,var(--lineb) 1px,transparent 1px),
+        linear-gradient(var(--line) 1px,transparent 1px),
+        linear-gradient(90deg,var(--line) 1px,transparent 1px);
+      background-size: 128px 128px,128px 128px,32px 32px,32px 32px;
+      color: var(--ink);
       min-height: 100vh;
-      overflow-x: hidden;
-      transition: background .3s, color .3s;
+      transition: background-color .35s, color .35s;
     }
 
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background: repeating-linear-gradient(
-        0deg, transparent, transparent 2px,
-        rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px
-      );
-      pointer-events: none; z-index: 9999;
-    }
-    body::after {
-      content: '';
-      position: fixed; inset: 0; opacity: .025;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      pointer-events: none; z-index: 9998;
+    .wrap { max-width: 980px; margin: 0 auto; padding: 2rem 2rem 5rem; }
+
+    .sheet {
+      background: rgba(245,249,253,.97);
+      border: 2px solid var(--blue);
+      position: relative;
+      transition: background .35s, border-color .35s;
     }
 
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--bg); }
-    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--green-dim); }
-
-    /* ── NAV ── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0;
-      background: var(--nav-bg);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      padding: .75rem 2rem;
-      display: flex; align-items: center; gap: 1.5rem;
-      z-index: 100;
+    .sheet::before {
+      content: ''; position: absolute; inset: 5px;
+      border: 1px solid rgba(21,101,192,.35); pointer-events: none;
+      transition: border-color .35s;
     }
-    .nav-logo {
-      font-size: .85rem; color: var(--green); letter-spacing: .02em;
-      flex-shrink: 0;
-    }
-    .nav-logo span { color: var(--gray); }
 
-    .nav-links {
-      display: flex; gap: 1.5rem; list-style: none; flex: 1;
-    }
-    .nav-links a {
-      color: var(--gray); text-decoration: none;
-      font-size: .78rem; transition: color .2s;
-    }
-    .nav-links a:hover { color: var(--green); }
-    .nav-links a::before { content: '# '; color: var(--green-dim); }
+    .xhair { position: absolute; width: 20px; height: 20px; }
+    .xhair::before,.xhair::after { content:''; position:absolute; background:var(--blue2); }
+    .xhair::before { width:1px; height:100%; left:50%; }
+    .xhair::after  { width:100%; height:1px; top:50%; }
+    .xhair.tl { top:-2px; left:-2px; }
+    .xhair.tr { top:-2px; right:-2px; transform:scaleX(-1); }
+    .xhair.bl { bottom:-2px; left:-2px; transform:scaleY(-1); }
+    .xhair.br { bottom:-2px; right:-2px; transform:scale(-1); }
 
-    .nav-controls { display: flex; align-items: center; gap: .5rem; flex-shrink: 0; }
-
-    .theme-toggle {
-      background: none; border: 1px solid var(--border);
-      color: var(--gray); font-size: .9rem; cursor: pointer;
-      border-radius: 6px; padding: .25rem .55rem;
-      transition: color .2s, border-color .2s;
-      font-family: var(--mono); line-height: 1;
+    /* ── TITLE STRIP ── */
+    .title-strip {
+      background: var(--strip);
+      padding: .6rem 1.8rem;
+      display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+      transition: background .35s;
     }
-    .theme-toggle:hover { color: var(--green); border-color: var(--green); }
-
-    .nav-hamburger {
-      display: none;
-      background: none; border: 1px solid var(--border);
-      color: var(--gray); font-size: 1rem; cursor: pointer;
-      border-radius: 6px; padding: .25rem .5rem;
-      transition: color .2s, border-color .2s; line-height: 1;
+    .ts-left {
+      font-family:'Oswald',sans-serif; font-size:.62rem; font-weight:400;
+      letter-spacing:.25em; text-transform:uppercase; color:rgba(255,255,255,.72);
     }
-    .nav-hamburger:hover { color: var(--green); border-color: var(--green); }
-
-    /* ── MAIN LAYOUT ── */
-    main { max-width: 900px; margin: 0 auto; padding: 6rem 2rem 4rem; }
-    section { margin-bottom: 4rem; }
-
-    .prompt {
-      display: flex; align-items: center; gap: .5rem;
-      font-size: .8rem; color: var(--gray); margin-bottom: 1.25rem;
+    .ts-controls { display:flex; align-items:center; gap:.5rem; }
+    .ts-right { font-family:'Space Mono',monospace; font-size:.55rem; color:rgba(255,255,255,.42); letter-spacing:.08em; }
+    .ctrl-btn {
+      background:none; border:1px solid rgba(255,255,255,.28); color:rgba(255,255,255,.65);
+      border-radius:4px; padding:.18rem .55rem; font-size:.65rem; cursor:pointer;
+      font-family:'Space Mono',monospace; letter-spacing:.06em;
+      transition:color .2s,border-color .2s,background .2s; line-height:1.5; white-space:nowrap;
     }
-    .prompt .user  { color: var(--green); }
-    .prompt .at    { color: var(--gray); }
-    .prompt .host  { color: var(--cyan); }
-    .prompt .path  { color: var(--purple); }
-    .prompt .arrow { color: var(--green); }
+    .ctrl-btn:hover { color:#fff; border-color:rgba(255,255,255,.55); background:rgba(255,255,255,.1); }
+    .ctrl-sep { width:1px; height:14px; background:rgba(255,255,255,.18); }
 
-    .section-title {
-      font-size: .72rem; text-transform: uppercase;
-      letter-spacing: .12em; color: var(--gray);
-      border-bottom: 1px solid var(--border);
-      padding-bottom: .5rem; margin-bottom: 1.5rem;
-    }
-    .section-title::before { content: '// '; color: var(--green-dim); }
+    /* ── INNER ── */
+    .inner { padding:3rem 2.5rem 2.5rem; }
 
     /* ── HERO ── */
-    #hero { padding-top: 1rem; min-height: 60vh; display: flex; flex-direction: column; justify-content: center; }
-
-    .terminal-window {
-      background: var(--bg2); border: 1px solid var(--border);
-      border-radius: 10px; overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0,0,0,.1);
+    .hero {
+      display:grid; grid-template-columns:1fr auto; gap:2rem;
+      align-items:end; padding-bottom:2.5rem;
+      border-bottom:1px solid var(--lineb); margin-bottom:3rem;
     }
-    [data-theme="dark"] .terminal-window { box-shadow: 0 20px 60px rgba(0,0,0,.6); }
-
-    .terminal-header {
-      background: var(--bg3); padding: .6rem 1rem;
-      display: flex; align-items: center; gap: .5rem;
-      border-bottom: 1px solid var(--border);
+    .hero-name {
+      font-family:'Oswald',sans-serif; font-size:clamp(3rem,7vw,5.5rem);
+      font-weight:700; line-height:.92; letter-spacing:-.01em;
+      color:var(--ink); text-transform:uppercase;
     }
-    .dot { width: 12px; height: 12px; border-radius: 50%; }
-    .dot-r { background: #ff5f57; }
-    .dot-y { background: #febc2e; }
-    .dot-g { background: #28c840; }
-    .terminal-title { flex: 1; text-align: center; font-size: .72rem; color: var(--gray); }
-    .terminal-body { padding: 1.5rem; font-size: .85rem; line-height: 1.9; }
-
-    .line { display: flex; flex-wrap: wrap; gap: .3rem; }
-    .line + .line { margin-top: .1rem; }
-
-    .c-prompt { color: var(--green); }
-    .c-cmd    { color: var(--white); }
-    .c-flag   { color: var(--cyan); }
-    .c-str    { color: var(--yellow); }
-    .c-comment{ color: var(--gray); font-style: italic; }
-    .c-key    { color: var(--purple); }
-    .c-val    { color: var(--green); }
-    .c-red    { color: var(--red); }
-    .c-num    { color: var(--cyan); }
-
-    .output-block {
-      background: var(--output-bg); border-left: 3px solid var(--green-dim);
-      padding: .75rem 1rem; margin: .5rem 0; border-radius: 0 6px 6px 0;
+    .hero-name span { display:block; font-weight:200; font-size:.85em; color:var(--dim); letter-spacing:.06em; }
+    .hero-role { margin-top:1rem; font-family:'Space Mono',monospace; font-size:.72rem; color:var(--dim); line-height:1.7; }
+    .hero-role strong { display:block; color:var(--blue); font-size:.82rem; margin-bottom:.2rem; }
+    .hero-right { text-align:right; }
+    .avail-badge {
+      display:inline-flex; align-items:center; gap:.4rem;
+      font-family:'Space Mono',monospace; font-size:.62rem; color:#16a34a;
+      border:1px solid rgba(22,163,74,.3); background:rgba(22,163,74,.06);
+      border-radius:4px; padding:.3rem .7rem; letter-spacing:.06em; margin-bottom:1rem;
     }
-    .cursor {
-      display: inline-block; width: 9px; height: 1.1em;
-      background: var(--green); vertical-align: text-bottom;
-      animation: blink 1s step-end infinite;
+    .avail-dot { width:5px; height:5px; background:#16a34a; border-radius:50%; animation:blink 2s ease-in-out infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+    .cert-stack { display:flex; flex-direction:column; gap:.4rem; align-items:flex-end; }
+    .cert {
+      font-family:'Space Mono',monospace; font-size:.58rem; color:var(--dim);
+      background:rgba(21,101,192,.07); border:1px solid rgba(21,101,192,.2);
+      border-radius:3px; padding:.2rem .55rem; letter-spacing:.06em;
     }
-    @keyframes blink { 50% { opacity: 0; } }
-    .typed {
-      overflow: hidden; white-space: nowrap;
-      border-right: 2px solid var(--green);
-      animation: typing 2.5s steps(40,end) .5s both, blink-caret .75s step-end infinite;
+
+    /* ── SECTION LABEL ── */
+    .sec-label {
+      font-family:'Oswald',sans-serif; font-weight:500; font-size:.62rem;
+      letter-spacing:.28em; text-transform:uppercase; color:var(--blue);
+      display:flex; align-items:center; gap:.8rem; margin-bottom:1.8rem;
     }
-    @keyframes typing { from { width:0 } to { width:100% } }
-    @keyframes blink-caret { 50% { border-color: transparent } }
+    .sec-label::before { content:'△'; font-size:.55rem; }
+    .sec-label::after  { content:''; flex:1; height:1px; background:linear-gradient(90deg,var(--lineb),transparent); }
+    section { margin-bottom:3rem; }
+
+    /* ── STATS ── */
+    .stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:1.2rem; }
+    .stat {
+      position:relative; padding:1.4rem 1.2rem 1.2rem;
+      background:rgba(21,101,192,.04); border:1px solid rgba(21,101,192,.18);
+      border-radius:4px; transition:background .35s,border-color .35s;
+    }
+    .stat-callout {
+      position:absolute; top:-10px; left:-10px; width:22px; height:22px;
+      background:var(--red); color:#fff; border-radius:50%;
+      font-family:'Space Mono',monospace; font-size:.6rem; font-weight:700;
+      display:flex; align-items:center; justify-content:center;
+      border:2px solid var(--white);
+    }
+    .stat-num { font-family:'Oswald',sans-serif; font-size:2.6rem; font-weight:700; line-height:1; color:var(--ink); letter-spacing:-.02em; margin-bottom:.3rem; }
+    .stat-lbl { font-family:'Space Mono',monospace; font-size:.6rem; color:var(--dim); line-height:1.5; letter-spacing:.03em; }
+    .stat-sub { font-size:.58rem; color:var(--faint); font-family:'Space Mono',monospace; margin-top:.15rem; }
 
     /* ── ABOUT ── */
-    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .about-block { padding:1.8rem 2rem; background:rgba(21,101,192,.03); border-left:3px solid var(--blue); transition:background .35s; }
+    .about-text { font-size:.95rem; line-height:1.85; color:var(--ink); }
+    .about-text em { color:var(--blue); font-style:normal; font-weight:700; }
 
-    .code-block {
-      background: var(--bg2); border: 1px solid var(--border);
-      border-radius: 8px; overflow: hidden;
+    /* ── RESULTS ── */
+    .results-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+    .result {
+      padding:1.2rem; border:1px solid rgba(21,101,192,.18); border-radius:4px;
+      background:rgba(245,249,253,.8); transition:background .35s,border-color .35s;
     }
-    .code-block-header {
-      background: var(--bg3); padding: .4rem .9rem; font-size: .7rem;
-      color: var(--gray); border-bottom: 1px solid var(--border);
-      display: flex; gap: .6rem; align-items: center;
-    }
-    .file-dot { width: 8px; height: 8px; background: var(--green-dim); border-radius: 50%; }
-    .code-block-body { padding: 1rem 1.2rem; font-size: .8rem; line-height: 1.8; }
-    .ln { color: var(--border); user-select: none; width: 1.8rem; display: inline-block; }
+    .r-before { font-family:'Space Mono',monospace; font-size:.7rem; color:var(--faint); text-decoration:line-through; }
+    .r-arrow  { font-family:'Space Mono',monospace; font-size:.65rem; color:var(--blue2); margin:.1rem 0; }
+    .r-after  { font-family:'Oswald',sans-serif; font-size:1.8rem; font-weight:600; color:var(--ink); line-height:1; margin-bottom:.25rem; }
+    .r-desc   { font-size:.66rem; color:var(--dim); font-family:'Space Mono',monospace; letter-spacing:.02em; line-height:1.45; }
 
-    /* ── SKILLS ── */
-    .skills-container {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem;
+    /* ── EXPERIENCE ── */
+    .exp-timeline { position:relative; padding-left:2rem; }
+    .exp-timeline::before {
+      content:''; position:absolute; left:7px; top:8px; bottom:8px; width:1px;
+      background:repeating-linear-gradient(to bottom,var(--blue2) 0,var(--blue2) 4px,transparent 4px,transparent 10px);
     }
-    .skill-card {
-      background: var(--bg2); border: 1px solid var(--border);
-      border-radius: 8px; padding: 1rem 1.2rem;
-      transition: border-color .2s, transform .2s, box-shadow .2s;
+    .exp-item { position:relative; margin-bottom:1.8rem; }
+    .exp-item:last-child { margin-bottom:0; }
+    .exp-dot { position:absolute; left:-26px; top:4px; width:12px; height:12px; border-radius:50%; border:2px solid var(--blue2); background:var(--white); }
+    .exp-dot.current { background:var(--blue2); box-shadow:0 0 0 3px rgba(26,115,232,.2); }
+    .exp-head { display:flex; justify-content:space-between; align-items:baseline; gap:1rem; margin-bottom:.15rem; flex-wrap:wrap; }
+    .exp-co   { font-family:'Oswald',sans-serif; font-size:1.1rem; font-weight:600; color:var(--ink); text-transform:uppercase; letter-spacing:.04em; }
+    .exp-cofull { font-family:'Space Mono',monospace; font-size:.58rem; color:var(--faint); letter-spacing:.04em; margin-bottom:.2rem; }
+    .exp-dates{ font-family:'Space Mono',monospace; font-size:.65rem; color:var(--faint); white-space:nowrap; }
+    .exp-role { font-size:.82rem; color:var(--blue); font-weight:600; margin-bottom:.55rem; }
+    .exp-chips{ display:flex; flex-wrap:wrap; gap:.35rem; }
+    .ec {
+      font-family:'Space Mono',monospace; font-size:.59rem; color:var(--dim);
+      background:rgba(21,101,192,.07); border:1px solid rgba(21,101,192,.18);
+      border-radius:3px; padding:.16rem .45rem; transition:background .35s,border-color .35s;
     }
-    .skill-card:hover { border-color: var(--green-dim); transform: translateY(-2px); }
-    .skill-category {
-      font-size: .68rem; text-transform: uppercase;
-      letter-spacing: .1em; color: var(--green); margin-bottom: .6rem;
-    }
-    .skill-tags { display: flex; flex-wrap: wrap; gap: .4rem; }
-    .tag {
-      background: rgba(var(--green-rgb),.08);
-      border: 1px solid rgba(var(--green-rgb),.2);
-      color: var(--white); font-size: .72rem;
-      padding: .2rem .55rem; border-radius: 4px; transition: background .2s;
-    }
-    .tag:hover { background: rgba(var(--green-rgb),.15); }
-    .tag.cyan  { background: rgba(var(--cyan-rgb),.08);   border-color: rgba(var(--cyan-rgb),.2); }
-    .tag.yellow{ background: rgba(var(--yellow-rgb),.08); border-color: rgba(var(--yellow-rgb),.2); }
-    .tag.purple{ background: rgba(var(--purple-rgb),.08); border-color: rgba(var(--purple-rgb),.2); }
-    .tag.red   { background: rgba(var(--red-rgb),.08);    border-color: rgba(var(--red-rgb),.2); }
-
-    /* ── LINKS ── */
-    .links-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem;
-    }
-    .link-card {
-      background: var(--bg2); border: 1px solid var(--border);
-      border-radius: 8px; padding: 1.2rem 1.4rem; text-decoration: none;
-      display: flex; align-items: center; gap: 1rem;
-      transition: border-color .2s, transform .2s, background .2s, box-shadow .2s; cursor: pointer;
-    }
-    .link-card:hover {
-      border-color: var(--green); background: rgba(var(--green-rgb),.05); transform: translateY(-2px);
-    }
-    .link-icon { font-size: 1.4rem; flex-shrink: 0; }
-    .link-info .link-title { font-size: .85rem; font-weight: 500; color: var(--white); margin-bottom: .15rem; }
-    .link-info .link-sub { font-size: .72rem; color: var(--gray); }
-    .link-arrow { margin-left: auto; color: var(--border); font-size: .9rem; transition: color .2s, transform .2s; }
-    .link-card:hover .link-arrow { color: var(--green); transform: translateX(3px); }
 
     /* ── PROJECTS ── */
-    .projects-list { display: flex; flex-direction: column; gap: 1rem; }
-    .project-card {
-      background: var(--bg2); border: 1px solid var(--border); border-radius: 8px;
-      padding: 1.2rem 1.4rem; transition: border-color .2s;
-      display: grid; grid-template-columns: 1fr auto; gap: .5rem 1rem; align-items: start;
+    .proj-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; }
+    .proj-card {
+      position:relative; padding:1.4rem 1.6rem 1.2rem;
+      border:1px solid rgba(21,101,192,.18); border-radius:4px;
+      background:rgba(21,101,192,.02);
+      transition:background .25s,border-color .25s;
     }
-    .project-card:hover { border-color: var(--green-dim); }
-    .project-header { display: flex; align-items: center; gap: .75rem; }
-    .project-name { font-size: .9rem; font-weight: 500; color: var(--cyan); }
-    .project-badge {
-      font-size: .65rem; padding: .15rem .5rem; border-radius: 20px;
-      background: rgba(var(--green-rgb),.12);
-      border: 1px solid rgba(var(--green-rgb),.25); color: var(--green);
+    .proj-card:hover { background:rgba(21,101,192,.05); border-color:rgba(21,101,192,.35); }
+    .proj-card.wide  { grid-column:1/-1; }
+    .proj-num {
+      position:absolute; top:-10px; left:-10px; width:22px; height:22px;
+      background:var(--blue); color:#fff; border-radius:50%;
+      font-family:'Space Mono',monospace; font-size:.55rem; font-weight:700;
+      display:flex; align-items:center; justify-content:center;
+      border:2px solid var(--white);
     }
-    .project-desc { font-size: .78rem; color: var(--gray); line-height: 1.6; margin-top: .3rem; grid-column: 1; }
-    .project-meta { font-size: .7rem; color: var(--gray); text-align: right; }
-    .project-stats { display: flex; gap: .75rem; margin-top: .5rem; grid-column: 1; }
-    .stat { font-size: .72rem; color: var(--gray); }
-    .stat span { color: var(--yellow); }
+    .proj-title  { font-family:'Oswald',sans-serif; font-size:.98rem; font-weight:600; color:var(--ink); text-transform:uppercase; letter-spacing:.03em; margin-bottom:.2rem; }
+    .proj-ctx    { font-family:'Space Mono',monospace; font-size:.58rem; color:var(--faint); letter-spacing:.04em; margin-bottom:.5rem; }
+    .proj-metric { font-family:'Space Mono',monospace; font-size:.64rem; color:var(--blue2); font-weight:700; margin-bottom:.75rem; line-height:1.5; }
+    .proj-chips  { display:flex; flex-wrap:wrap; gap:.35rem; }
 
-    /* ── CONTACT ── */
-    .contact-terminal {
-      background: var(--bg2); border: 1px solid var(--border);
-      border-radius: 8px; overflow: hidden;
+    /* ── STACK ── */
+    .spec-table { width:100%; border-collapse:collapse; }
+    .spec-table tr { border-bottom:1px solid rgba(21,101,192,.1); transition:border-color .35s; }
+    .spec-table tr:last-child { border-bottom:none; }
+    .spec-table td { padding:.7rem 0; vertical-align:top; }
+    .spec-table td:first-child {
+      font-family:'Space Mono',monospace; font-size:.58rem; color:var(--faint);
+      letter-spacing:.12em; text-transform:uppercase; white-space:nowrap;
+      padding-right:1.4rem; width:155px;
     }
-    .contact-body { padding: 1.4rem 1.6rem; font-size: .83rem; line-height: 2; }
+    .spec-chips { display:flex; flex-wrap:wrap; gap:.4rem; }
+    .sc { font-size:.72rem; font-weight:600; padding:.3rem .8rem; border-radius:4px; font-family:'Karla',sans-serif; transition:transform .15s,background .35s,color .35s; }
+    .sc:hover { transform:translateY(-1px); }
+    .sc-cloud { background:#dbeafe; color:#1d4ed8; }
+    .sc-lang  { background:#dcfce7; color:#15803d; }
+    .sc-db    { background:#e0e7ff; color:#3730a3; }
+    .sc-arch  { background:#ede9fe; color:#5b21b6; }
+    .sc-meth  { background:#fef3c7; color:#92400e; }
+    .sc-fw    { background:#ccfbf1; color:#0f766e; }
+    .sc-tool  { background:#f1f5f9; color:#475569; }
+    .sc-sec   { background:#fee2e2; color:#b91c1c; }
 
-    /* ── QR FAB ── */
-    .qr-fab {
-      position: fixed; bottom: 2rem; right: 2rem;
-      width: 52px; height: 52px; background: var(--green-dim);
-      border: 1px solid var(--green); border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; z-index: 500; font-size: 1.3rem;
-      transition: transform .2s, background .2s, box-shadow .2s;
-      box-shadow: 0 4px 20px rgba(var(--green-rgb),.3);
+    /* ── EDUCATION ── */
+    .edu-block {
+      padding:1.4rem 1.8rem;
+      border:1px solid rgba(21,101,192,.18); border-radius:4px;
+      background:rgba(21,101,192,.02); transition:background .35s,border-color .35s;
     }
-    .qr-fab:hover { transform: scale(1.08); background: var(--green); box-shadow: 0 6px 28px rgba(var(--green-rgb),.5); }
+    .edu-school { font-family:'Oswald',sans-serif; font-size:1rem; font-weight:600; color:var(--ink); text-transform:uppercase; letter-spacing:.04em; margin-bottom:.5rem; }
+    .edu-deg {
+      font-family:'Space Mono',monospace; font-size:.68rem; color:var(--dim);
+      line-height:1.7; padding-left:.8rem; border-left:2px solid rgba(21,101,192,.2);
+      margin-bottom:.3rem;
+    }
+    .edu-deg:last-child { margin-bottom:0; }
 
-    .qr-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,.75);
-      backdrop-filter: blur(6px); z-index: 600;
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0; pointer-events: none; transition: opacity .25s;
+    /* ── DOWNLOADS + QR ── */
+    .dl-section { margin-top:3rem; display:grid; grid-template-columns:1fr 1fr auto; gap:1rem; align-items:stretch; }
+    .dl-btn {
+      display:flex; align-items:center; gap:.9rem; padding:1rem 1.2rem;
+      border:1px solid var(--lineb); border-radius:4px; background:rgba(21,101,192,.04);
+      text-decoration:none; color:var(--ink); transition:background .2s,border-color .2s;
     }
-    .qr-overlay.open { opacity: 1; pointer-events: all; }
-    .qr-modal {
-      background: var(--bg2); border: 1px solid var(--border); border-radius: 14px;
-      padding: 0; overflow: hidden; width: 300px;
-      transform: scale(.9) translateY(10px); transition: transform .25s;
-      box-shadow: 0 24px 60px rgba(0,0,0,.7);
+    .dl-btn:hover { background:rgba(21,101,192,.09); border-color:var(--blue); }
+    .dl-icon { font-family:'Oswald',sans-serif; font-size:1.5rem; font-weight:600; color:var(--blue); line-height:1; flex-shrink:0; }
+    .dl-label { font-family:'Oswald',sans-serif; font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:var(--ink); font-weight:500; }
+    .dl-lang  { font-family:'Space Mono',monospace; font-size:.57rem; color:var(--dim); margin-top:.12rem; }
+    .dl-badge { margin-left:auto; font-family:'Space Mono',monospace; font-size:.65rem; font-weight:700; color:var(--blue); border:1px solid var(--blue); border-radius:3px; padding:.15rem .45rem; }
+    .qr-wrap {
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      gap:.45rem; padding:.75rem .9rem; border:1px solid var(--lineb); border-radius:4px;
+      background:rgba(21,101,192,.04); transition:background .35s,border-color .35s;
     }
-    .qr-overlay.open .qr-modal { transform: scale(1) translateY(0); }
-    .qr-modal-header {
-      background: var(--bg3); border-bottom: 1px solid var(--border);
-      padding: .6rem 1rem; display: flex; align-items: center; justify-content: space-between;
-    }
-    .qr-modal-header span { font-size: .72rem; color: var(--gray); }
-    .qr-close {
-      background: none; border: none; color: var(--gray); cursor: pointer;
-      font-size: 1rem; line-height: 1; transition: color .2s; padding: .1rem .3rem;
-    }
-    .qr-close:hover { color: var(--red); }
-    .qr-modal-body { padding: 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
-    .qr-frame { background: #fff; border-radius: 10px; padding: 12px; box-shadow: 0 0 0 4px rgba(var(--green-rgb),.15); }
-    .qr-url { font-size: .72rem; color: var(--green); text-align: center; word-break: break-all; }
-    .qr-hint { font-size: .68rem; color: var(--gray); text-align: center; }
-    .qr-copy-btn {
-      width: 100%; background: rgba(var(--green-rgb),.1);
-      border: 1px solid var(--green-dim); color: var(--green);
-      font-family: var(--mono); font-size: .75rem; padding: .5rem 1rem;
-      border-radius: 6px; cursor: pointer; transition: background .2s;
-    }
-    .qr-copy-btn:hover { background: rgba(var(--green-rgb),.2); }
-    .qr-copy-btn.copied { color: var(--cyan); border-color: var(--cyan); }
+    #qrcode { background:#fff; padding:4px; border-radius:2px; line-height:0; }
+    #qrcode canvas,#qrcode img { display:block; }
+    .qr-lbl { font-family:'Space Mono',monospace; font-size:.5rem; color:var(--faint); letter-spacing:.07em; text-align:center; }
 
-    /* ── STYLE SWITCHER ── */
-    .style-switcher {
-      position: fixed; bottom: 2rem; left: 2rem;
-      display: flex; align-items: center; gap: .4rem;
-      background: var(--bg2); border: 1px solid var(--border);
-      border-radius: 10px; padding: .5rem .8rem;
-      z-index: 500; box-shadow: 0 4px 20px rgba(0,0,0,.12);
-      transition: background .3s, border-color .3s;
-    }
-    .style-label {
-      font-size: .62rem; color: var(--gray); text-transform: uppercase;
-      letter-spacing: .08em; margin-right: .2rem;
-    }
-    .style-btn {
-      width: 22px; height: 22px; border-radius: 50%;
-      border: 2px solid transparent; cursor: pointer;
-      padding: 0; transition: transform .2s, border-color .2s;
-      display: flex; align-items: center; justify-content: center;
-      background: none;
-    }
-    .style-btn.active { border-color: var(--green); transform: scale(1.25); }
-    .style-btn:not(.active):hover { transform: scale(1.1); }
-    .swatch { width: 14px; height: 14px; border-radius: 50%; display: block; }
-    .swatch-terminal { background: #3fb950; }
-    .swatch-minimal  { background: #2563eb; }
-    .swatch-executive{ background: #c5922e; }
+    /* ── CONTACT BLOCK ── */
+    .title-block { margin-top:1rem; border:1px solid var(--lineb); display:grid; grid-template-columns:1fr 1fr 1fr; transition:border-color .35s; }
+    .tb-cell { padding:.65rem .85rem; border-right:1px solid var(--lineb); transition:border-color .35s; }
+    .tb-cell:last-child { border-right:none; }
+    .tb-cell.full { grid-column:1/-1; border-right:none; border-top:1px solid var(--lineb); }
+    .tb-label { font-family:'Space Mono',monospace; font-size:.52rem; color:var(--faint); letter-spacing:.14em; text-transform:uppercase; margin-bottom:.2rem; }
+    .tb-val { font-family:'Karla',sans-serif; font-size:.78rem; color:var(--ink); font-weight:500; }
+    .tb-val a { color:var(--blue2); text-decoration:none; }
+    .tb-val a:hover { text-decoration:underline; }
 
-    /* executive nav for switcher */
-    body.style-executive .style-switcher {
-      border-color: rgba(197,146,46,.3);
+    /* ── NAV ── */
+    .nav {
+      position:fixed; bottom:1.5rem; left:50%; transform:translateX(-50%);
+      z-index:100; display:flex; align-items:center;
+      background:var(--ink); border-radius:6px; overflow:hidden;
+      box-shadow:0 8px 30px rgba(11,31,56,.35); transition:background .35s;
     }
-    body.style-executive .style-label { color: rgba(255,255,255,.4); }
-
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid var(--border); padding: 2rem;
-      text-align: center; font-size: .72rem; color: var(--gray);
+    .nav a {
+      color:rgba(255,255,255,.55); text-decoration:none;
+      font-family:'Oswald',sans-serif; font-size:.68rem; font-weight:400;
+      letter-spacing:.18em; text-transform:uppercase; padding:.6rem 1.1rem;
+      transition:color .2s,background .2s; white-space:nowrap;
     }
-    footer span { color: var(--green); }
+    .nav a:hover { color:#fff; background:rgba(255,255,255,.07); }
+    .nsep { width:1px; height:18px; background:rgba(255,255,255,.12); }
 
-    /* ── ANIMATIONS ── */
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    section { animation: fadeUp .5s ease both; }
-    section:nth-child(1) { animation-delay: .1s; }
-    section:nth-child(2) { animation-delay: .2s; }
-    section:nth-child(3) { animation-delay: .3s; }
-    section:nth-child(4) { animation-delay: .4s; }
-    section:nth-child(5) { animation-delay: .5s; }
-    section:nth-child(6) { animation-delay: .6s; }
+    /* ── REVEAL ── */
+    .reveal { opacity:0; transform:translateY(14px); transition:opacity .65s ease,transform .65s ease; }
+    .reveal.in { opacity:1; transform:none; }
 
     /* ── RESPONSIVE ── */
-    @media (max-width: 640px) {
-      nav { padding: .65rem 1rem; gap: .75rem; }
-      .nav-hamburger { display: flex; align-items: center; justify-content: center; }
-      .nav-links {
-        display: none;
-        position: absolute; top: 100%; left: 0; right: 0;
-        background: var(--nav-bg); backdrop-filter: blur(12px);
-        border-bottom: 1px solid var(--border);
-        flex-direction: column; padding: 1rem 1.5rem; gap: .75rem;
-      }
-      .nav-links.open { display: flex; }
-      .nav-links a::before { content: '→ '; }
-      main { padding: 5rem 1rem 4rem; }
-      .about-grid { grid-template-columns: 1fr; }
-      .terminal-body { font-size: .76rem; }
-      .style-switcher { bottom: 1.5rem; left: 1rem; }
-      .qr-fab { bottom: 1.5rem; right: 1rem; width: 44px; height: 44px; font-size: 1.1rem; }
+    @media (max-width:720px) {
+      .stats-row    { grid-template-columns:repeat(2,1fr); }
+      .results-grid { grid-template-columns:1fr 1fr; }
+      .proj-grid    { grid-template-columns:1fr; }
+      .proj-card.wide { grid-column:1; }
+      .hero         { grid-template-columns:1fr; }
+      .hero-right   { text-align:left; }
+      .cert-stack   { flex-direction:row; flex-wrap:wrap; }
+      .dl-section   { grid-template-columns:1fr 1fr; }
+      .qr-wrap      { grid-column:1/-1; flex-direction:row; justify-content:flex-start; }
+      .title-block  { grid-template-columns:1fr 1fr; }
+      .tb-cell.full { grid-column:1/-1; }
+    }
+    @media (max-width:480px) {
+      .wrap { padding:1rem 1rem 5rem; }
+      .inner { padding:2rem 1.2rem 1.5rem; }
+      .results-grid { grid-template-columns:1fr; }
+      .stats-row    { grid-template-columns:1fr 1fr; }
+      .spec-table td:first-child { width:85px; font-size:.54rem; }
+      .title-block  { grid-template-columns:1fr; }
+      .tb-cell      { border-right:none; border-bottom:1px solid var(--lineb); }
+      .dl-section   { grid-template-columns:1fr; }
+      .qr-wrap      { flex-direction:row; gap:1rem; }
+      .nav a        { padding:.5rem .7rem; font-size:.6rem; letter-spacing:.1em; }
+      .ts-left      { display:none; }
     }
   </style>
 </head>
 <body>
 
-<nav>
-  <div class="nav-logo"><span>~/</span>alejandro-calleja</div>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="#about">about</a></li>
-    <li><a href="#skills">skills</a></li>
-    <li><a href="#projects">projects</a></li>
-    <li><a href="#links">links</a></li>
-    <li><a href="#contact">contact</a></li>
-  </ul>
-  <div class="nav-controls">
-    <button class="theme-toggle" id="themeToggle" title="Switch to dark mode">☾</button>
-    <button class="nav-hamburger" id="navHamburger" aria-label="Menu">☰</button>
-  </div>
+<nav class="nav">
+  <a href="#about"      data-i18n="nav-about">About</a><div class="nsep"></div>
+  <a href="#experience" data-i18n="nav-exp">Experience</a><div class="nsep"></div>
+  <a href="#projects"   data-i18n="nav-projects">Projects</a><div class="nsep"></div>
+  <a href="#stack"      data-i18n="nav-stack">Stack</a><div class="nsep"></div>
+  <a href="#education"  data-i18n="nav-edu">Education</a><div class="nsep"></div>
+  <a href="#contact"    data-i18n="nav-contact">Contact</a>
 </nav>
 
-<main>
+<div class="wrap">
+<div class="sheet">
+  <div class="xhair tl"></div><div class="xhair tr"></div>
+  <div class="xhair bl"></div><div class="xhair br"></div>
 
-  <!-- ═══ HERO ═══ -->
-  <section id="hero">
-    <div class="terminal-window">
-      <div class="terminal-header">
-        <div class="dot dot-r"></div>
-        <div class="dot dot-y"></div>
-        <div class="dot dot-g"></div>
-        <span class="terminal-title">bash — alejandro@devbox ~ </span>
-      </div>
-      <div class="terminal-body">
-        <div class="line">
-          <span class="c-prompt">alejandro@devbox</span>
-          <span class="c-comment">:~$</span>
-          <span class="c-cmd">cat</span>
-          <span class="c-str">profile.json</span>
-        </div>
-        <div class="output-block" style="margin-top:.75rem">
-          <div class="line"><span class="c-key">{</span></div>
-          <div class="line" style="padding-left:1.5rem">
-            <span class="c-key">"name"</span><span class="c-comment">:</span>
-            <span class="c-str">"Alejandro Calleja Luna"</span><span class="c-comment">,</span>
-          </div>
-          <div class="line" style="padding-left:1.5rem">
-            <span class="c-key">"role"</span><span class="c-comment">:</span>
-            <span class="c-str">"Senior Engineering Manager &amp; Data Architect"</span><span class="c-comment">,</span>
-          </div>
-          <div class="line" style="padding-left:1.5rem">
-            <span class="c-key">"experience"</span><span class="c-comment">:</span>
-            <span class="c-num">17</span><span class="c-comment">, // years</span>
-          </div>
-          <div class="line" style="padding-left:1.5rem">
-            <span class="c-key">"leadership"</span><span class="c-comment">:</span>
-            <span class="c-num">9</span><span class="c-comment">, // years as EM</span>
-          </div>
-          <div class="line" style="padding-left:1.5rem">
-            <span class="c-key">"location"</span><span class="c-comment">:</span>
-            <span class="c-str">"Mexico City, MX"</span><span class="c-comment">,</span>
-          </div>
-          <div class="line" style="padding-left:1.5rem">
-            <span class="c-key">"cloud"</span><span class="c-comment">:</span>
-            <span class="c-str">"GCP"</span><span class="c-comment">,</span>
-          </div>
-          <div class="line" style="padding-left:1.5rem">
-            <span class="c-key">"certifications"</span><span class="c-comment">:</span>
-            <span class="c-str">["ISO 27001:2022", "ITIL v3"]</span><span class="c-comment">,</span>
-          </div>
-          <div class="line" style="padding-left:1.5rem">
-            <span class="c-key">"open_to_work"</span><span class="c-comment">:</span>
-            <span class="c-val">true</span>
-          </div>
-          <div class="line"><span class="c-key">}</span></div>
-        </div>
-        <div class="line" style="margin-top:.75rem">
-          <span class="c-prompt">alejandro@devbox</span>
-          <span class="c-comment">:~$</span>
-          <span class="cursor"></span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ ABOUT ═══ -->
-  <section id="about">
-    <div class="prompt">
-      <span class="user">alejandro</span><span class="at">@</span>
-      <span class="host">devbox</span><span class="at">:</span>
-      <span class="path">~/about</span><span class="arrow">$</span>
-      <span style="color:var(--white)">cat README.md</span>
-    </div>
-    <p class="section-title">about_me</p>
-    <div class="about-grid">
-      <div class="code-block">
-        <div class="code-block-header"><div class="file-dot"></div>bio.ts</div>
-        <div class="code-block-body">
-          <div><span class="ln">1</span><span class="c-key">const</span> <span class="c-val">engineer</span> <span class="c-comment">= {</span></div>
-          <div><span class="ln">2</span>  <span class="c-key">focus</span><span class="c-comment">:</span> <span class="c-str">"Data Architecture"</span><span class="c-comment">,</span></div>
-          <div><span class="ln">3</span>  <span class="c-key">stack</span><span class="c-comment">:</span> <span class="c-str">"GCP + Java + Python"</span><span class="c-comment">,</span></div>
-          <div><span class="ln">4</span>  <span class="c-key">strength</span><span class="c-comment">:</span> <span class="c-str">"ETL · DWH · Cloud"</span><span class="c-comment">,</span></div>
-          <div><span class="ln">5</span>  <span class="c-key">scale</span><span class="c-comment">:</span> <span class="c-num">120_000</span> <span class="c-comment">// tx/month</span></div>
-          <div><span class="ln">6</span><span class="c-comment">}</span></div>
-          <div style="margin-top:.5rem"><span class="ln">7</span><span class="c-comment">// IC → EM → Tech Director</span></div>
-          <div><span class="ln">8</span><span class="c-comment">// ISO 27001 certified since 2020</span></div>
-          <div><span class="ln">9</span><span class="c-comment">// Remote-first since 2019</span></div>
-        </div>
-      </div>
-      <div class="code-block">
-        <div class="code-block-header"><div class="file-dot"></div>highlights.sh</div>
-        <div class="code-block-body" style="font-size:.77rem">
-          <div><span class="c-comment"># Key achievements</span></div>
-          <div style="margin-top:.3rem"><span class="c-prompt">✓</span> Processing: <span class="c-red">40min</span><span class="c-comment"> → </span><span class="c-val">5min</span></div>
-          <div><span class="c-prompt">✓</span> Queries: <span class="c-red">minutes</span><span class="c-comment"> → </span><span class="c-val">seconds</span></div>
-          <div><span class="c-prompt">✓</span> Availability: <span class="c-red">97%</span><span class="c-comment"> → </span><span class="c-val">99%</span></div>
-          <div><span class="c-prompt">✓</span> Scale: <span class="c-red">60K</span><span class="c-comment"> → </span><span class="c-val">120K tx/month</span></div>
-          <div><span class="c-prompt">✓</span> CI/CD: <span class="c-val">20-30 deploys/month</span></div>
-          <div><span class="c-prompt">✓</span> BI: <span class="c-val">40+ dashboards built</span></div>
-          <div><span class="c-prompt">✓</span> ISO 27001: <span class="c-val">2013 → 2022 ✔</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ SKILLS ═══ -->
-  <section id="skills">
-    <div class="prompt">
-      <span class="user">alejandro</span><span class="at">@</span>
-      <span class="host">devbox</span><span class="at">:</span>
-      <span class="path">~/skills</span><span class="arrow">$</span>
-      <span style="color:var(--white)">ls -la</span>
-    </div>
-    <p class="section-title">tech_stack</p>
-    <div class="skills-container">
-      <div class="skill-card">
-        <div class="skill-category">☁ Cloud — GCP</div>
-        <div class="skill-tags">
-          <span class="tag cyan">BigQuery</span><span class="tag cyan">Dataflow</span>
-          <span class="tag cyan">Composer</span><span class="tag cyan">Pub/Sub</span>
-          <span class="tag cyan">Cloud Storage</span><span class="tag cyan">Vertex AI</span>
-          <span class="tag cyan">Compute Engine</span><span class="tag cyan">Cloud Functions</span>
-        </div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-category">🗄 Data Engineering</div>
-        <div class="skill-tags">
-          <span class="tag">Data Warehouse</span><span class="tag">ETL / ELT</span>
-          <span class="tag">Data Architecture</span><span class="tag">Star Schema</span>
-          <span class="tag">Snowflake Schema</span><span class="tag">Medallion</span>
-          <span class="tag">ClickHouse</span>
-        </div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-category">🛢 Databases</div>
-        <div class="skill-tags">
-          <span class="tag yellow">MySQL</span><span class="tag yellow">PostgreSQL</span>
-          <span class="tag yellow">Oracle</span><span class="tag yellow">DB2</span>
-          <span class="tag yellow">BigQuery SQL</span>
-        </div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-category">⚙ Architecture</div>
-        <div class="skill-tags">
-          <span class="tag purple">Microservices</span><span class="tag purple">REST API</span>
-          <span class="tag purple">Distributed Systems</span><span class="tag purple">Design Patterns</span>
-          <span class="tag purple">Event-Driven</span>
-        </div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-category">💻 Languages</div>
-        <div class="skill-tags">
-          <span class="tag">Java</span><span class="tag">Python</span>
-          <span class="tag">JavaScript</span><span class="tag">TypeScript</span>
-          <span class="tag">SQL</span><span class="tag">Shell</span>
-        </div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-category">🔒 Governance &amp; Process</div>
-        <div class="skill-tags">
-          <span class="tag red">ISO 27001</span><span class="tag red">ISO 27002</span>
-          <span class="tag">CI/CD</span><span class="tag">DevOps</span>
-          <span class="tag">Scrum</span><span class="tag">Kanban</span><span class="tag">ITIL v3</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ PROJECTS ═══ -->
-  <section id="projects">
-    <div class="prompt">
-      <span class="user">alejandro</span><span class="at">@</span>
-      <span class="host">devbox</span><span class="at">:</span>
-      <span class="path">~/projects</span><span class="arrow">$</span>
-      <span style="color:var(--white)">git log --oneline</span>
-    </div>
-    <p class="section-title">notable_projects</p>
-    <div class="projects-list">
-      <div class="project-card">
-        <div>
-          <div class="project-header">
-            <span class="project-name">centralized-data-warehouse</span>
-            <span class="project-badge">Data Engineering</span>
-          </div>
-          <p class="project-desc">Designed and implemented a centralized Data Warehouse from scratch, consolidating 3 distributed MySQL databases. Built automated ETL pipelines with daily D-1 updates and 30+ normalized tables.</p>
-          <div class="project-stats">
-            <span class="stat">📦 <span>100K+</span> records/month</span>
-            <span class="stat">⚡ <span>40min → 5min</span></span>
-            <span class="stat">📊 <span>40+</span> BI reports</span>
-          </div>
-        </div>
-        <div class="project-meta">Java · MySQL · ETL</div>
-      </div>
-      <div class="project-card">
-        <div>
-          <div class="project-header">
-            <span class="project-name">gcp-infrastructure-migration</span>
-            <span class="project-badge">Cloud</span>
-          </div>
-          <p class="project-desc">Led migration of critical infrastructure — 3 servers, 3 databases — to Google Cloud Platform. Implemented BigQuery, Cloud Storage, and Composer, improving availability from 97% to 99% in 6 months.</p>
-          <div class="project-stats">
-            <span class="stat">☁ <span>GCP</span></span>
-            <span class="stat">📈 <span>97% → 99%</span> uptime</span>
-            <span class="stat">🏗 <span>3</span> servers migrated</span>
-          </div>
-        </div>
-        <div class="project-meta">GCP · BigQuery · Composer</div>
-      </div>
-      <div class="project-card">
-        <div>
-          <div class="project-header">
-            <span class="project-name">customs-validation-distributed-arch</span>
-            <span class="project-badge">Architecture</span>
-          </div>
-          <p class="project-desc">Redesigned customs validation system from monolithic to distributed architecture, processing 3K-4K daily files. Eliminated processing bottlenecks and significantly reduced support incidents.</p>
-          <div class="project-stats">
-            <span class="stat">📂 <span>3K-4K</span> files/day</span>
-            <span class="stat">⚡ <span>8x</span> faster</span>
-            <span class="stat">🔧 <span>Java</span> backend</span>
-          </div>
-        </div>
-        <div class="project-meta">Java · MySQL · Architecture</div>
-      </div>
-      <div class="project-card">
-        <div>
-          <div class="project-header">
-            <span class="project-name">iso27001-isms-implementation</span>
-            <span class="project-badge">Security</span>
-          </div>
-          <p class="project-desc">Implemented Information Security Management System from scratch. Achieved ISO 27001:2013 certification and successfully transitioned to ISO 27001:2022. Coordinated 2 internal + 1 external audit annually since 2020.</p>
-          <div class="project-stats">
-            <span class="stat">🔒 <span>ISO 27001</span></span>
-            <span class="stat">📋 <span>60+</span> controls</span>
-            <span class="stat">📅 <span>2020</span> → present</span>
-          </div>
-        </div>
-        <div class="project-meta">ISMS · Compliance · Governance</div>
-      </div>
-      <div class="project-card">
-        <div>
-          <div class="project-header">
-            <span class="project-name">aduanapp-ai-integration</span>
-            <span class="project-badge">AI · Current</span>
-          </div>
-          <p class="project-desc">Part-time AI &amp; Data Engineer at Aduanapp, an AI-powered customs digitalization startup. Evaluating third-party APIs, analyzing technical feasibility, and integrating AI tools (Claude API) to accelerate development cycles.</p>
-          <div class="project-stats">
-            <span class="stat">🤖 <span>Claude API</span></span>
-            <span class="stat">📡 <span>API Integration</span></span>
-            <span class="stat">🚀 <span>2025</span> → present</span>
-          </div>
-        </div>
-        <div class="project-meta">AI · Python · APIs</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ LINKS / CV ═══ -->
-  <section id="links">
-    <div class="prompt">
-      <span class="user">alejandro</span><span class="at">@</span>
-      <span class="host">devbox</span><span class="at">:</span>
-      <span class="path">~/links</span><span class="arrow">$</span>
-      <span style="color:var(--white)">ls -1</span>
-    </div>
-    <p class="section-title">links_and_resume</p>
-    <div class="links-grid">
-      <a class="link-card" href="https://www.linkedin.com/in/alejandro-calleja-luna/" target="_blank">
-        <span class="link-icon">💼</span>
-        <div class="link-info">
-          <div class="link-title">LinkedIn</div>
-          <div class="link-sub">linkedin.com/in/alejandro-calleja-luna</div>
-        </div>
-        <span class="link-arrow">→</span>
-      </a>
-      <a class="link-card" href="CV%20Alejandro%20Calleja%20-%20EN%20-%202026.pdf" download>
-        <span class="link-icon">📄</span>
-        <div class="link-info">
-          <div class="link-title">Resume (English)</div>
-          <div class="link-sub">CV Alejandro Calleja - EN - 2026.pdf</div>
-        </div>
-        <span class="link-arrow">↓</span>
-      </a>
-      <a class="link-card" href="CV%20Alejandro%20Calleja%20-%20ES%20-%202026.pdf" download>
-        <span class="link-icon">📋</span>
-        <div class="link-info">
-          <div class="link-title">Currículum (Español)</div>
-          <div class="link-sub">CV Alejandro Calleja - ES - 2026.pdf</div>
-        </div>
-        <span class="link-arrow">↓</span>
-      </a>
-      <a class="link-card" href="https://github.com/AlexCalleja" target="_blank">
-        <span class="link-icon">🐙</span>
-        <div class="link-info">
-          <div class="link-title">GitHub</div>
-          <div class="link-sub">github.com/AlexCalleja</div>
-        </div>
-        <span class="link-arrow">→</span>
-      </a>
-    </div>
-  </section>
-
-  <!-- ═══ CONTACT ═══ -->
-  <section id="contact">
-    <div class="prompt">
-      <span class="user">alejandro</span><span class="at">@</span>
-      <span class="host">devbox</span><span class="at">:</span>
-      <span class="path">~/contact</span><span class="arrow">$</span>
-      <span style="color:var(--white)">echo $CONTACT_INFO</span>
-    </div>
-    <p class="section-title">get_in_touch</p>
-    <div class="contact-terminal">
-      <div class="code-block-header"><div class="file-dot"></div>contact.env</div>
-      <div class="contact-body">
-        <div class="line">
-          <span class="c-key">EMAIL</span><span class="c-comment">=</span>
-          <a href="mailto:ale_calleja@hotmail.com" style="color:var(--cyan);text-decoration:none">ale_calleja@hotmail.com</a>
-        </div>
-        <div class="line">
-          <span class="c-key">PHONE</span><span class="c-comment">=</span>
-          <a href="tel:+525543718748" style="color:var(--cyan);text-decoration:none">+52 55 4371 8748</a>
-        </div>
-        <div class="line">
-          <span class="c-key">LINKEDIN</span><span class="c-comment">=</span>
-          <a href="https://www.linkedin.com/in/alejandro-calleja-luna/" target="_blank" style="color:var(--cyan);text-decoration:none">linkedin.com/in/alejandro-calleja-luna</a>
-        </div>
-        <div class="line">
-          <span class="c-key">LOCATION</span><span class="c-comment">=</span>
-          <span style="color:var(--yellow)">"Mexico City, Mexico"</span>
-        </div>
-        <div class="line">
-          <span class="c-key">LANGUAGES</span><span class="c-comment">=</span>
-          <span style="color:var(--yellow)">"Spanish (native) · English (advanced) · French (intermediate)"</span>
-        </div>
-        <div class="line">
-          <span class="c-key">OPEN_TO</span><span class="c-comment">=</span>
-          <span class="c-val">"Remote · Hybrid CDMX · Relocation USA"</span>
-        </div>
-        <div class="line" style="margin-top:.5rem">
-          <span class="c-comment"># Available for full-time and consulting opportunities</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<!-- QR FLOATING BUTTON -->
-<button class="qr-fab" id="qrBtn" title="Share via QR">⬛</button>
-
-<!-- QR MODAL -->
-<div class="qr-overlay" id="qrOverlay">
-  <div class="qr-modal">
-    <div class="qr-modal-header">
-      <span>📡 share_profile.qr</span>
-      <button class="qr-close" id="qrClose">✕</button>
-    </div>
-    <div class="qr-modal-body">
-      <div class="qr-frame" id="qrCode"></div>
-      <div class="qr-url">https://alexcalleja.github.io</div>
-      <div class="qr-hint">Escanea para abrir el perfil 📱</div>
-      <button class="qr-copy-btn" id="qrCopyBtn">$ copy link to clipboard</button>
+  <div class="title-strip">
+    <span class="ts-left">Engineering Portfolio — Alejandro Calleja Luna</span>
+    <div class="ts-controls">
+      <span class="ts-right">REV 2026.05 | alexcalleja.github.io</span>
+      <div class="ctrl-sep"></div>
+      <button class="ctrl-btn" id="langBtn"  title="Switch language">ES</button>
+      <button class="ctrl-btn" id="themeBtn" title="Toggle dark/light">☾ dark</button>
     </div>
   </div>
-</div>
 
-<!-- STYLE SWITCHER -->
-<div class="style-switcher" id="styleSwitcher">
-  <span class="style-label">style</span>
-  <button class="style-btn" data-style="terminal" title="Terminal">
-    <span class="swatch swatch-terminal"></span>
-  </button>
-  <button class="style-btn" data-style="minimal" title="Minimal">
-    <span class="swatch swatch-minimal"></span>
-  </button>
-  <button class="style-btn" data-style="executive" title="Executive">
-    <span class="swatch swatch-executive"></span>
-  </button>
-</div>
+  <div class="inner">
 
-<footer>
-  <span>alejandro@devbox</span> ~ built with HTML/CSS · hosted on GitHub Pages · &copy; 2026
-</footer>
+    <!-- HERO -->
+    <div class="hero reveal" id="about">
+      <div>
+        <h1 class="hero-name"><span>Alejandro</span>Calleja Luna</h1>
+        <div class="hero-role">
+          <strong data-i18n="role-title">Senior Engineering Manager</strong>
+          <span data-i18n="role-sub">9 years engineering leadership · 17 years software development<br>Individual Contributor → Technology Director</span>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="avail-badge">
+          <span class="avail-dot"></span>
+          <span data-i18n="avail">Open to work · Remote · USA</span>
+        </div>
+        <div class="cert-stack">
+          <span class="cert">ISO 27001:2022</span>
+          <span class="cert">ITIL v3</span>
+          <span class="cert" data-i18n="cert-gcp">GCP · Cloud Architecture</span>
+          <span class="cert" data-i18n="cert-city">Mexico City, CDMX</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <section class="reveal">
+      <div class="sec-label" data-i18n="sec-metrics">Key metrics</div>
+      <div class="stats-row">
+        <div class="stat">
+          <div class="stat-callout">1</div>
+          <div class="stat-num">17</div>
+          <div class="stat-lbl" data-i18n="s1-lbl">Years in software</div>
+          <div class="stat-sub" data-i18n="s1-sub">IC → Technology Director</div>
+        </div>
+        <div class="stat">
+          <div class="stat-callout">2</div>
+          <div class="stat-num">9</div>
+          <div class="stat-lbl" data-i18n="s2-lbl">Years of EM experience</div>
+          <div class="stat-sub" data-i18n="s2-sub">4-person team · 8-12 projects/yr</div>
+        </div>
+        <div class="stat">
+          <div class="stat-callout">3</div>
+          <div class="stat-num">120K</div>
+          <div class="stat-lbl" data-i18n="s3-lbl">Monthly transactions</div>
+          <div class="stat-sub" data-i18n="s3-sub">Scaled from ~60K baseline</div>
+        </div>
+        <div class="stat">
+          <div class="stat-callout">4</div>
+          <div class="stat-num">99%</div>
+          <div class="stat-lbl" data-i18n="s4-lbl">Platform availability</div>
+          <div class="stat-sub" data-i18n="s4-sub">GCP migration · 6 months</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROFILE -->
+    <section class="reveal">
+      <div class="sec-label" data-i18n="sec-profile">Profile</div>
+      <div class="about-block">
+        <p class="about-text" data-i18n="profile-text">
+          Senior Engineering Manager combining <em>9 years</em> of engineering leadership with deep technical foundation from <em>17 years</em> in software development, progressing from individual contributor to strategic technology leadership. Hands-on experience informs architectural decisions, performance optimization, technical debt reduction, and CI/CD adoption. Expert in <em>distributed systems architecture</em>, design patterns, API design, database optimization, optimizing complex SQL queries, <em>ETL pipeline design</em>, microservices modernization, and legacy code transformation. Comfortable making architectural decisions, reviewing code, and mentoring engineers on technical best practices. Successfully led agile methodologies adoption (Scrum/Kanban), <em>ISO 27001</em> certification, and remote work transition. Seeking <em>Software Development Manager</em> roles where both technical depth and proven leadership experience create competitive advantage.
+        </p>
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section class="reveal">
+      <div class="sec-label" data-i18n="sec-results">Key results</div>
+      <div class="results-grid">
+        <div class="result">
+          <div class="r-before">40 min</div>
+          <div class="r-arrow" data-i18n="r1-arr">↓ processing time</div>
+          <div class="r-after">5 min</div>
+          <div class="r-desc"  data-i18n="r1-desc">Peak hours (~3K–4K daily files)</div>
+        </div>
+        <div class="result">
+          <div class="r-before" data-i18n="r2-before">minutes</div>
+          <div class="r-arrow"  data-i18n="r2-arr">↓ query execution</div>
+          <div class="r-after"  data-i18n="r2-after">seconds</div>
+          <div class="r-desc"   data-i18n="r2-desc">Indexes · normalization · materialized views</div>
+        </div>
+        <div class="result">
+          <div class="r-before">~60K</div>
+          <div class="r-arrow" data-i18n="r3-arr">↑ monthly transactions</div>
+          <div class="r-after">~120K</div>
+          <div class="r-desc"  data-i18n="r3-desc">Quality control &amp; incident management</div>
+        </div>
+        <div class="result">
+          <div class="r-before">97%</div>
+          <div class="r-arrow" data-i18n="r4-arr">↑ availability</div>
+          <div class="r-after">99%</div>
+          <div class="r-desc"  data-i18n="r4-desc">GCP migration · 3 servers · 3 databases</div>
+        </div>
+        <div class="result">
+          <div class="r-after" style="color:var(--blue)">~40</div>
+          <div class="r-desc" data-i18n="r5-desc">Reports &amp; dashboards (Finance, Ops, Exec)</div>
+        </div>
+        <div class="result">
+          <div class="r-after" style="color:var(--blue)">20–30</div>
+          <div class="r-desc" data-i18n="r6-desc">Monthly deployments · version control</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section class="reveal" id="experience">
+      <div class="sec-label" data-i18n="sec-exp">Experience</div>
+      <div class="exp-timeline">
+
+        <div class="exp-item">
+          <div class="exp-dot current"></div>
+          <div class="exp-head">
+            <span class="exp-co">Aduanapp</span>
+            <span class="exp-dates" data-i18n="e1-dates">Jul 2025 – Present</span>
+          </div>
+          <div class="exp-cofull" data-i18n="e1-cofull">AI Customs Tech Startup</div>
+          <div class="exp-role"   data-i18n="e1-role">AI &amp; Data Engineer (Part-time)</div>
+          <div class="exp-chips">
+            <span class="ec" data-i18n="e1-c1">AI Integration and Development</span>
+            <span class="ec" data-i18n="e1-c2">third-party API integration</span>
+            <span class="ec" data-i18n="e1-c3">AI-powered customs digitalization</span>
+            <span class="ec">Claude API</span>
+            <span class="ec" data-i18n="e1-c5">data engineering &amp; AI strategies</span>
+          </div>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-dot"></div>
+          <div class="exp-head">
+            <span class="exp-co">ITCE</span>
+            <span class="exp-dates" data-i18n="e2-dates">Jan 2020 – May 2025</span>
+          </div>
+          <div class="exp-cofull">Innovaciones Tecnológicas para el Comercio Exterior</div>
+          <div class="exp-role" data-i18n="e2-role">Technology Director (Senior Engineering Manager)</div>
+          <div class="exp-chips">
+            <span class="ec" data-i18n="e2-c1">technology strategy &amp; OKRs</span>
+            <span class="ec" data-i18n="e2-c2">ETL pipelines · ~100K records/mo</span>
+            <span class="ec" data-i18n="e2-c3">microservices architecture</span>
+            <span class="ec" data-i18n="e2-c4">CI/CD · 20-30 deploys/mo</span>
+            <span class="ec">GCP Vertex AI</span>
+            <span class="ec">ISO 27001:2022</span>
+            <span class="ec" data-i18n="e2-c7">4-person team · 8-12 projects/yr</span>
+            <span class="ec" data-i18n="e2-c8">60K→120K tx/mo</span>
+            <span class="ec" data-i18n="e2-c9">97%→99% availability</span>
+          </div>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-dot"></div>
+          <div class="exp-head">
+            <span class="exp-co">ITCE</span>
+            <span class="exp-dates" data-i18n="e3-dates">Jun 2016 – Dec 2019</span>
+          </div>
+          <div class="exp-cofull">Innovaciones Tecnológicas para el Comercio Exterior</div>
+          <div class="exp-role" data-i18n="e3-role">Development Subdirector (Engineering Manager)</div>
+          <div class="exp-chips">
+            <span class="ec" data-i18n="e3-c1">~40 BI reports &amp; dashboards</span>
+            <span class="ec" data-i18n="e3-c2">Electronic Pre-validation (Mexico)</span>
+            <span class="ec">Scrum/Kanban</span>
+            <span class="ec" data-i18n="e3-c4">ISO 27001 preparation · 15+ audits</span>
+            <span class="ec" data-i18n="e3-c5">7 VPN/MPLS channels (SAT + banks)</span>
+          </div>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-dot"></div>
+          <div class="exp-head">
+            <span class="exp-co">ITCE</span>
+            <span class="exp-dates" data-i18n="e4-dates">Jun 2008 – May 2016</span>
+          </div>
+          <div class="exp-cofull">Innovaciones Tecnológicas para el Comercio Exterior</div>
+          <div class="exp-role" data-i18n="e4-role">Software Engineer</div>
+          <div class="exp-chips">
+            <span class="ec" data-i18n="e4-c1">distributed architecture</span>
+            <span class="ec" data-i18n="e4-c2">Data Warehouse design (3 DBs)</span>
+            <span class="ec" data-i18n="e4-c3">ETL automation</span>
+            <span class="ec" data-i18n="e4-c4">40min→5min processing</span>
+            <span class="ec" data-i18n="e4-c5">minutes→seconds SQL queries</span>
+            <span class="ec">Java backend</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- KEY DELIVERABLES -->
+    <section class="reveal" id="projects">
+      <div class="sec-label" data-i18n="sec-projects">Key Deliverables</div>
+      <div class="proj-grid">
+
+        <div class="proj-card">
+          <div class="proj-num">P1</div>
+          <div class="proj-title" data-i18n="p1-title">GCP Cloud Migration</div>
+          <div class="proj-ctx"   data-i18n="p1-ctx">ITCE · Technology Director · 2024</div>
+          <div class="proj-metric" data-i18n="p1-metric">97% → 99% availability · 3 servers · 3 databases · 6 months</div>
+          <div class="proj-chips">
+            <span class="sc sc-cloud">GCP</span>
+            <span class="sc sc-cloud">Compute Engine</span>
+            <span class="sc sc-cloud">Cloud SQL</span>
+            <span class="sc sc-cloud">Cloud Storage</span>
+            <span class="sc sc-meth">DevOps</span>
+          </div>
+        </div>
+
+        <div class="proj-card">
+          <div class="proj-num">P2</div>
+          <div class="proj-title" data-i18n="p2-title">Customs Validation Engine Redesign</div>
+          <div class="proj-ctx"   data-i18n="p2-ctx">ITCE · Software Engineer · 2008–2016</div>
+          <div class="proj-metric" data-i18n="p2-metric">Monolithic → distributed · 40 min → 5 min · ~3K–4K daily files</div>
+          <div class="proj-chips">
+            <span class="sc sc-lang">Java</span>
+            <span class="sc sc-arch">Distributed Systems</span>
+            <span class="sc sc-db">MySQL</span>
+            <span class="sc sc-arch">ETL</span>
+          </div>
+        </div>
+
+        <div class="proj-card">
+          <div class="proj-num">P3</div>
+          <div class="proj-title" data-i18n="p3-title">Centralized Data Warehouse</div>
+          <div class="proj-ctx"   data-i18n="p3-ctx">ITCE · Software Engineer · 2008–2016</div>
+          <div class="proj-metric" data-i18n="p3-metric">Built from scratch · 3 DBs consolidated · 30+ tables normalized</div>
+          <div class="proj-chips">
+            <span class="sc sc-lang">Java</span>
+            <span class="sc sc-db">MySQL</span>
+            <span class="sc sc-arch">ETL Pipeline</span>
+            <span class="sc sc-db">star schema</span>
+          </div>
+        </div>
+
+        <div class="proj-card">
+          <div class="proj-num">P4</div>
+          <div class="proj-title" data-i18n="p4-title">Electronic Pre-validation System (SAT Mexico)</div>
+          <div class="proj-ctx"   data-i18n="p4-ctx">ITCE · Engineering Manager · 2016–2025</div>
+          <div class="proj-metric" data-i18n="p4-metric">10–15 processes → 30+ · 7 VPN/MPLS channels · SAT + 6 banks</div>
+          <div class="proj-chips">
+            <span class="sc sc-lang">Java</span>
+            <span class="sc sc-arch">REST API</span>
+            <span class="sc sc-db">MySQL</span>
+            <span class="sc sc-meth">VPN/MPLS</span>
+          </div>
+        </div>
+
+        <div class="proj-card">
+          <div class="proj-num">P5</div>
+          <div class="proj-title" data-i18n="p5-title">BI &amp; Reporting Platform</div>
+          <div class="proj-ctx"   data-i18n="p5-ctx">ITCE · Engineering Manager · 2016–2022</div>
+          <div class="proj-metric" data-i18n="p5-metric">~40 dashboards · Finance, Ops, Executive · ~60K→120K tx/mo</div>
+          <div class="proj-chips">
+            <span class="sc sc-db">Power BI</span>
+            <span class="sc sc-cloud">BigQuery</span>
+            <span class="sc sc-db">MySQL</span>
+            <span class="sc sc-arch">ETL</span>
+          </div>
+        </div>
+
+        <div class="proj-card">
+          <div class="proj-num">P6</div>
+          <div class="proj-title" data-i18n="p6-title">AI Customs Digitalization Platform</div>
+          <div class="proj-ctx"   data-i18n="p6-ctx">Aduanapp · AI &amp; Data Engineer · 2025–Present</div>
+          <div class="proj-metric" data-i18n="p6-metric">Claude API · third-party API integration · data engineering</div>
+          <div class="proj-chips">
+            <span class="sc sc-lang">Python</span>
+            <span class="sc sc-cloud">Claude API</span>
+            <span class="sc sc-arch">Data Engineering</span>
+            <span class="sc sc-arch">AI Integration</span>
+          </div>
+        </div>
+
+        <div class="proj-card wide">
+          <div class="proj-num">P7</div>
+          <div class="proj-title" data-i18n="p7-title">ISO 27001 ISMS Implementation</div>
+          <div class="proj-ctx"   data-i18n="p7-ctx">ITCE · Technology Director · 2016–2024</div>
+          <div class="proj-metric" data-i18n="p7-metric">ISO 27001:2013 certified → transitioned to :2022 (2024) · ~60 security controls · 3 audits/yr (2 internal, 1 external) · 15+ audits total</div>
+          <div class="proj-chips">
+            <span class="sc sc-sec">ISO 27001:2013/2022</span>
+            <span class="sc sc-sec">ISMS</span>
+            <span class="sc sc-sec">Risk Management</span>
+            <span class="sc sc-sec">Security Controls</span>
+            <span class="sc sc-meth">ISO 27002</span>
+            <span class="sc sc-meth">ISO 27301</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- STACK -->
+    <section class="reveal" id="stack">
+      <div class="sec-label" data-i18n="sec-stack">Technical specification</div>
+      <table class="spec-table">
+        <tr>
+          <td data-i18n="st-cloud">Cloud / GCP</td>
+          <td>
+            <div class="spec-chips">
+              <span class="sc sc-cloud">BigQuery</span><span class="sc sc-cloud">Dataflow</span>
+              <span class="sc sc-cloud">Composer</span><span class="sc sc-cloud">Vertex AI</span>
+              <span class="sc sc-cloud">Pub/Sub</span><span class="sc sc-cloud">Cloud Storage</span>
+              <span class="sc sc-cloud">Compute Engine</span><span class="sc sc-cloud">Cloud Functions</span>
+              <span class="sc sc-cloud">AWS</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td data-i18n="st-lang">Languages</td>
+          <td>
+            <div class="spec-chips">
+              <span class="sc sc-lang">Java</span><span class="sc sc-lang">Java EE</span>
+              <span class="sc sc-lang">Python</span><span class="sc sc-lang">TypeScript</span>
+              <span class="sc sc-lang">JavaScript</span><span class="sc sc-lang">C#</span>
+              <span class="sc sc-lang">C/C++</span><span class="sc sc-lang">SQL</span>
+              <span class="sc sc-lang">shell</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td data-i18n="st-fw">Frameworks</td>
+          <td>
+            <div class="spec-chips">
+              <span class="sc sc-fw">Spring</span><span class="sc sc-fw">Hibernate</span>
+              <span class="sc sc-fw">Node.js</span><span class="sc sc-fw">Angular</span>
+              <span class="sc sc-fw">Maven</span><span class="sc sc-fw">Apache Tomcat</span>
+              <span class="sc sc-fw">JBoss</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td data-i18n="st-db">Databases</td>
+          <td>
+            <div class="spec-chips">
+              <span class="sc sc-db">MySQL</span><span class="sc sc-db">PostgreSQL</span>
+              <span class="sc sc-db">BigQuery</span><span class="sc sc-db">Oracle</span>
+              <span class="sc sc-db">ClickHouse</span><span class="sc sc-db">DB2</span>
+              <span class="sc sc-db">Power BI</span>
+              <span class="sc sc-db">ETL / Data Warehouse</span>
+              <span class="sc sc-db">star &amp; snowflake schemas</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td data-i18n="st-arch">Architecture</td>
+          <td>
+            <div class="spec-chips">
+              <span class="sc sc-arch">Microservices</span><span class="sc sc-arch">REST API</span>
+              <span class="sc sc-arch">Distributed Systems</span>
+              <span class="sc sc-arch">ETL Pipeline Design</span>
+              <span class="sc sc-arch">MVC</span><span class="sc sc-arch">DAO</span>
+              <span class="sc sc-arch">Design Patterns</span><span class="sc sc-arch">OOP</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td data-i18n="st-meth">Methodologies &amp; Standards</td>
+          <td>
+            <div class="spec-chips">
+              <span class="sc sc-meth">Scrum</span><span class="sc sc-meth">Kanban</span>
+              <span class="sc sc-meth">ITIL v3</span><span class="sc sc-meth">TOGAF</span>
+              <span class="sc sc-meth">DevOps</span><span class="sc sc-meth">BPM</span>
+              <span class="sc sc-meth">ISO 27001:2013/2022</span>
+              <span class="sc sc-meth">ISO 20000</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td data-i18n="st-tools">Tools / VCS</td>
+          <td>
+            <div class="spec-chips">
+              <span class="sc sc-tool">Git</span><span class="sc sc-tool">GitHub</span>
+              <span class="sc sc-tool">GitKraken</span>
+              <span class="sc sc-tool">IntelliJ</span><span class="sc sc-tool">Eclipse</span>
+              <span class="sc sc-tool">Postman</span><span class="sc sc-tool">SoapUI</span>
+              <span class="sc sc-tool">Linux / macOS</span>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </section>
+
+    <!-- EDUCATION -->
+    <section class="reveal" id="education">
+      <div class="sec-label" data-i18n="sec-edu">Education</div>
+      <div class="edu-block">
+        <div class="edu-school" data-i18n="edu-school">Universidad La Salle México</div>
+        <div class="edu-deg" data-i18n="edu-deg1">[2004–2008] Cybernetics and Computer Systems Engineering</div>
+        <div class="edu-deg" data-i18n="edu-deg2">[2011–2013] Master's in Information Technology for Business Management</div>
+      </div>
+    </section>
+
+    <!-- DOWNLOADS + QR -->
+    <section class="reveal" id="contact">
+      <div class="sec-label" data-i18n="sec-dl">Downloads</div>
+      <div class="dl-section">
+        <a href="CV%20Alejandro%20Calleja%20-%20EN%20-%202026.pdf" download class="dl-btn">
+          <div class="dl-icon">↓</div>
+          <div>
+            <div class="dl-label" data-i18n="dl-cv">Curriculum Vitae</div>
+            <div class="dl-lang"  data-i18n="dl-en-lang">English · PDF · 2026</div>
+          </div>
+          <div class="dl-badge">EN</div>
+        </a>
+        <a href="CV%20Alejandro%20Calleja%20-%20ES%20-%202026.pdf" download class="dl-btn">
+          <div class="dl-icon">↓</div>
+          <div>
+            <div class="dl-label" data-i18n="dl-cv">Curriculum Vitae</div>
+            <div class="dl-lang"  data-i18n="dl-es-lang">Spanish · PDF · 2026</div>
+          </div>
+          <div class="dl-badge">ES</div>
+        </a>
+        <div class="qr-wrap">
+          <div id="qrcode"></div>
+          <div class="qr-lbl">alexcalleja.github.io</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT TITLE BLOCK -->
+    <div class="title-block reveal">
+      <div class="tb-cell">
+        <div class="tb-label" data-i18n="c-email">Email</div>
+        <div class="tb-val"><a href="mailto:ale_calleja@hotmail.com">ale_calleja@hotmail.com</a></div>
+      </div>
+      <div class="tb-cell">
+        <div class="tb-label" data-i18n="c-phone">Phone · Location</div>
+        <div class="tb-val">
+          <a href="tel:+525543718748">+52 55 4371 8748</a> ·
+          <span data-i18n="c-city">Mexico City, CDMX</span>
+        </div>
+      </div>
+      <div class="tb-cell">
+        <div class="tb-label" data-i18n="c-profiles">Profiles</div>
+        <div class="tb-val">
+          <a href="https://www.linkedin.com/in/alejandro-calleja-luna/" target="_blank" rel="noopener">LinkedIn</a>
+          &nbsp;·&nbsp;
+          <a href="https://github.com/AlexCalleja" target="_blank" rel="noopener">GitHub</a>
+          &nbsp;·&nbsp;
+          <span data-i18n="c-avail">Remote · Hybrid CDMX · Relocation USA</span>
+        </div>
+      </div>
+      <div class="tb-cell full">
+        <div class="tb-label" data-i18n="c-langs-lbl">Languages</div>
+        <div class="tb-val"   data-i18n="c-langs-val">Spanish – Native &nbsp;·&nbsp; English – Advanced &nbsp;·&nbsp; French – Intermediate</div>
+      </div>
+    </div>
+
+  </div><!-- /inner -->
+</div><!-- /sheet -->
+</div><!-- /wrap -->
 
 <script>
-  const SITE_URL = 'https://alexcalleja.github.io';
+/* ── TRANSLATIONS ── */
+const T = {
+  en: {
+    'nav-about':'About','nav-exp':'Experience','nav-projects':'Projects',
+    'nav-stack':'Stack','nav-edu':'Education','nav-contact':'Contact',
 
-  // ── QR ──
-  new QRCode(document.getElementById('qrCode'), {
-    text: SITE_URL, width: 200, height: 200,
-    colorDark: '#0d1117', colorLight: '#ffffff',
-    correctLevel: QRCode.CorrectLevel.H
-  });
-  const overlay = document.getElementById('qrOverlay');
-  document.getElementById('qrBtn').addEventListener('click', () => overlay.classList.add('open'));
-  document.getElementById('qrClose').addEventListener('click', () => overlay.classList.remove('open'));
-  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('open'); });
-  const copyBtn = document.getElementById('qrCopyBtn');
-  copyBtn.addEventListener('click', () => {
-    navigator.clipboard.writeText(SITE_URL).then(() => {
-      copyBtn.textContent = '✓ copied!';
-      copyBtn.classList.add('copied');
-      setTimeout(() => { copyBtn.textContent = '$ copy link to clipboard'; copyBtn.classList.remove('copied'); }, 2000);
-    });
-  });
+    'role-title':'Senior Engineering Manager',
+    'role-sub':'9 years engineering leadership · 17 years software development<br>Individual Contributor → Technology Director',
+    'avail':'Open to work · Remote · USA',
+    'cert-gcp':'GCP · Cloud Architecture','cert-city':'Mexico City, CDMX',
 
-  // ── HAMBURGER ──
-  const hamburger = document.getElementById('navHamburger');
-  const navLinks  = document.getElementById('navLinks');
-  hamburger.addEventListener('click', () => {
-    navLinks.classList.toggle('open');
-    hamburger.textContent = navLinks.classList.contains('open') ? '✕' : '☰';
-  });
-  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-    navLinks.classList.remove('open');
-    hamburger.textContent = '☰';
-  }));
+    'sec-metrics':'Key metrics',
+    's1-lbl':'Years in software',       's1-sub':'IC → Technology Director',
+    's2-lbl':'Years of EM experience',  's2-sub':'4-person team · 8-12 projects/yr',
+    's3-lbl':'Monthly transactions',    's3-sub':'Scaled from ~60K baseline',
+    's4-lbl':'Platform availability',   's4-sub':'GCP migration · 6 months',
 
-  // ── THEME TOGGLE (light/dark, terminal style only) ──
-  const html   = document.documentElement;
-  const toggle = document.getElementById('themeToggle');
+    'sec-profile':'Profile',
+    'profile-text':'Senior Engineering Manager combining <em>9 years</em> of engineering leadership with deep technical foundation from <em>17 years</em> in software development, progressing from individual contributor to strategic technology leadership. Hands-on experience informs architectural decisions, performance optimization, technical debt reduction, and CI/CD adoption. Expert in <em>distributed systems architecture</em>, design patterns, API design, database optimization, optimizing complex SQL queries, <em>ETL pipeline design</em>, microservices modernization, and legacy code transformation. Comfortable making architectural decisions, reviewing code, and mentoring engineers on technical best practices. Successfully led agile methodologies adoption (Scrum/Kanban), <em>ISO 27001</em> certification, and remote work transition. Seeking <em>Software Development Manager</em> roles where both technical depth and proven leadership experience create competitive advantage.',
 
-  function applyDarkLight(theme) {
-    if (theme === 'dark') {
-      html.setAttribute('data-theme', 'dark');
-      toggle.textContent = '☀'; toggle.title = 'Switch to light mode';
-    } else {
-      html.removeAttribute('data-theme');
-      toggle.textContent = '☾'; toggle.title = 'Switch to dark mode';
-    }
-    localStorage.setItem('theme', theme);
+    'sec-results':'Key results',
+    'r1-arr':'↓ processing time',     'r1-desc':'Peak hours (~3K–4K daily files)',
+    'r2-before':'minutes','r2-arr':'↓ query execution','r2-after':'seconds',
+    'r2-desc':'Indexes · normalization · materialized views',
+    'r3-arr':'↑ monthly transactions','r3-desc':'Quality control &amp; incident management',
+    'r4-arr':'↑ availability',        'r4-desc':'GCP migration · 3 servers · 3 databases',
+    'r5-desc':'Reports &amp; dashboards (Finance, Ops, Exec)',
+    'r6-desc':'Monthly deployments · version control',
+
+    'sec-exp':'Experience',
+    'e1-cofull':'AI Customs Tech Startup',
+    'e1-dates':'Jul 2025 – Present',
+    'e1-role':'AI &amp; Data Engineer (Part-time)',
+    'e1-c1':'AI Integration and Development',
+    'e1-c2':'third-party API integration',
+    'e1-c3':'AI-powered customs digitalization platform',
+    'e1-c5':'data engineering &amp; AI strategies',
+
+    'e2-dates':'Jan 2020 – May 2025',
+    'e2-role':'Technology Director (Senior Engineering Manager)',
+    'e2-c1':'technology strategy &amp; OKRs',
+    'e2-c2':'ETL pipelines · ~100K records/mo',
+    'e2-c3':'microservices architecture',
+    'e2-c4':'CI/CD · 20-30 deploys/mo',
+    'e2-c7':'4-person team · 8-12 projects/yr',
+    'e2-c8':'60K→120K tx/mo',
+    'e2-c9':'97%→99% availability',
+
+    'e3-dates':'Jun 2016 – Dec 2019',
+    'e3-role':'Development Subdirector (Engineering Manager)',
+    'e3-c1':'~40 BI reports &amp; dashboards',
+    'e3-c2':'Electronic Pre-validation (Mexico)',
+    'e3-c4':'ISO 27001 preparation · 15+ audits',
+    'e3-c5':'7 VPN/MPLS channels (SAT + banks)',
+
+    'e4-dates':'Jun 2008 – May 2016',
+    'e4-role':'Software Engineer',
+    'e4-c1':'distributed architecture',
+    'e4-c2':'Data Warehouse design (3 DBs)',
+    'e4-c3':'ETL automation',
+    'e4-c4':'40min→5min processing',
+    'e4-c5':'minutes→seconds SQL queries',
+
+    'sec-projects':'Key Deliverables',
+    'p1-title':'GCP Cloud Migration',
+    'p1-ctx':'ITCE · Technology Director · 2024',
+    'p1-metric':'97% → 99% availability · 3 servers · 3 databases · 6 months',
+    'p2-title':'Customs Validation Engine Redesign',
+    'p2-ctx':'ITCE · Software Engineer · 2008–2016',
+    'p2-metric':'Monolithic → distributed · 40 min → 5 min · ~3K–4K daily files',
+    'p3-title':'Centralized Data Warehouse',
+    'p3-ctx':'ITCE · Software Engineer · 2008–2016',
+    'p3-metric':'Built from scratch · 3 DBs consolidated · 30+ tables normalized',
+    'p4-title':'Electronic Pre-validation System (SAT Mexico)',
+    'p4-ctx':'ITCE · Engineering Manager · 2016–2025',
+    'p4-metric':'10–15 processes → 30+ · 7 VPN/MPLS channels · SAT + 6 banks',
+    'p5-title':'BI &amp; Reporting Platform',
+    'p5-ctx':'ITCE · Engineering Manager · 2016–2022',
+    'p5-metric':'~40 dashboards · Finance, Ops, Executive · ~60K→120K tx/mo',
+    'p6-title':'AI Customs Digitalization Platform',
+    'p6-ctx':'Aduanapp · AI &amp; Data Engineer · 2025–Present',
+    'p6-metric':'Claude API · third-party API integration · data engineering',
+    'p7-title':'ISO 27001 ISMS Implementation',
+    'p7-ctx':'ITCE · Technology Director · 2016–2024',
+    'p7-metric':'ISO 27001:2013 certified → transitioned to :2022 (2024) · ~60 security controls · 3 audits/yr (2 internal, 1 external) · 15+ audits total',
+
+    'sec-stack':'Technical specification',
+    'st-cloud':'Cloud / GCP','st-lang':'Languages','st-fw':'Frameworks',
+    'st-db':'Databases','st-arch':'Architecture',
+    'st-meth':'Methodologies &amp; Standards','st-tools':'Tools / VCS',
+
+    'sec-edu':'Education',
+    'edu-school':'Universidad La Salle México',
+    'edu-deg1':'[2004–2008] Cybernetics and Computer Systems Engineering',
+    'edu-deg2':'[2011–2013] Master\'s in Information Technology for Business Management',
+
+    'sec-dl':'Downloads',
+    'dl-cv':'Curriculum Vitae',
+    'dl-en-lang':'English · PDF · 2026',
+    'dl-es-lang':'Spanish · PDF · 2026',
+
+    'c-email':'Email','c-phone':'Phone · Location','c-city':'Mexico City, CDMX',
+    'c-profiles':'Profiles','c-avail':'Remote · Hybrid CDMX · Relocation USA',
+    'c-langs-lbl':'Languages',
+    'c-langs-val':'Spanish – Native &nbsp;·&nbsp; English – Advanced &nbsp;·&nbsp; French – Intermediate',
+  },
+
+  es: {
+    'nav-about':'Perfil','nav-exp':'Experiencia','nav-projects':'Proyectos',
+    'nav-stack':'Stack','nav-edu':'Educación','nav-contact':'Contacto',
+
+    'role-title':'Senior Engineering Manager',
+    'role-sub':'9 años de liderazgo en ingeniería · 17 años en desarrollo de software<br>Contributor Individual → Director de Tecnología',
+    'avail':'En búsqueda activa · Remoto · EUA',
+    'cert-gcp':'GCP · Arquitectura Cloud','cert-city':'México, CDMX',
+
+    'sec-metrics':'Métricas clave',
+    's1-lbl':'Años en software',              's1-sub':'IC → Director de Tecnología',
+    's2-lbl':'Años de experiencia como EM',   's2-sub':'Equipo de 4 · 8-12 proyectos/año',
+    's3-lbl':'Transacciones mensuales',       's3-sub':'Escalado desde ~60K inicial',
+    's4-lbl':'Disponibilidad de plataforma',  's4-sub':'Migración GCP · 6 meses',
+
+    'sec-profile':'Perfil',
+    'profile-text':'Senior Engineering Manager combinando <em>9 años</em> de liderazgo en ingeniería con base técnica profunda de <em>17 años</em> en desarrollo de software, progresando desde contributor individual hasta liderazgo tecnológico estratégico. Experiencia práctica que informa decisiones arquitectónicas, optimización de rendimiento, reducción de deuda técnica y adopción de CI/CD. Experto en <em>arquitectura de sistemas distribuidos</em>, patrones de diseño, diseño de APIs, optimización de bases de datos, optimización de queries complejos de SQL, <em>diseño de pipelines ETL</em>, modernización de microservicios y transformación de código heredado. Cómodo tomando decisiones arquitectónicas, revisando código y mentoreando ingenieros en mejores prácticas técnicas. Liderazgo exitoso en adopción de metodologías ágiles (Scrum/Kanban), certificación <em>ISO 27001</em> y transición a trabajo remoto. Buscando roles de <em>Software Development Manager</em> con profundidad técnica y experiencia de liderazgo creen ventaja competitiva.',
+
+    'sec-results':'Resultados clave',
+    'r1-arr':'↓ tiempos de procesamiento','r1-desc':'Horarios pico (~3K–4K archivos diarios)',
+    'r2-before':'minutos','r2-arr':'↓ ejecución de queries','r2-after':'segundos',
+    'r2-desc':'Índices · normalización · vistas materializadas',
+    'r3-arr':'↑ transacciones mensuales','r3-desc':'Control de calidad y gestión de incidentes',
+    'r4-arr':'↑ disponibilidad',         'r4-desc':'Migración GCP · 3 servidores · 3 bases de datos',
+    'r5-desc':'Reportes y dashboards (Finanzas, Ops, Dirección)',
+    'r6-desc':'Liberaciones mensuales · control de versiones',
+
+    'sec-exp':'Experiencia Laboral',
+    'e1-cofull':'Startup de IA para Comercio Exterior',
+    'e1-dates':'Jul 2025 – Presente',
+    'e1-role':'AI &amp; Data Engineer (Part-time)',
+    'e1-c1':'Integración de IA y Desarrollo',
+    'e1-c2':'integración de APIs de terceros',
+    'e1-c3':'plataforma de digitalización aduanera con IA',
+    'e1-c5':'estrategias de ingeniería de datos e IA',
+
+    'e2-dates':'Ene 2020 – May 2025',
+    'e2-role':'Director de Tecnología (Senior Engineering Manager)',
+    'e2-c1':'estrategia tecnológica y OKRs',
+    'e2-c2':'pipelines ETL · ~100K registros/mes',
+    'e2-c3':'arquitectura de microservicios',
+    'e2-c4':'CI/CD · 20-30 liberaciones/mes',
+    'e2-c7':'equipo de 4 · 8-12 proyectos/año',
+    'e2-c8':'60K→120K tx/mes',
+    'e2-c9':'97%→99% disponibilidad',
+
+    'e3-dates':'Jun 2016 – Dic 2019',
+    'e3-role':'Subdirector de Desarrollo (Engineering Manager)',
+    'e3-c1':'~40 reportes y dashboards BI',
+    'e3-c2':'Prevalidación Electrónica (México)',
+    'e3-c4':'preparación ISO 27001 · 15+ auditorías',
+    'e3-c5':'7 canales VPN/MPLS (SAT + bancos)',
+
+    'e4-dates':'Jun 2008 – May 2016',
+    'e4-role':'Desarrollador de Software (Software Engineer)',
+    'e4-c1':'arquitectura distribuida',
+    'e4-c2':'diseño Data Warehouse (3 BDs)',
+    'e4-c3':'automatización ETL',
+    'e4-c4':'40min→5min procesamiento',
+    'e4-c5':'minutos→segundos queries SQL',
+
+    'sec-projects':'Entregables Clave',
+    'p1-title':'Migración a GCP',
+    'p1-ctx':'ITCE · Director de Tecnología · 2024',
+    'p1-metric':'97% → 99% disponibilidad · 3 servidores · 3 bases de datos · 6 meses',
+    'p2-title':'Rediseño Motor de Validación Aduanera',
+    'p2-ctx':'ITCE · Desarrollador de Software · 2008–2016',
+    'p2-metric':'Monolítico → distribuido · 40 min → 5 min · ~3K–4K archivos diarios',
+    'p3-title':'Data Warehouse Centralizado',
+    'p3-ctx':'ITCE · Desarrollador de Software · 2008–2016',
+    'p3-metric':'Desde cero · 3 BDs consolidadas · 30+ tablas normalizadas',
+    'p4-title':'Sistema de Prevalidación Electrónica (SAT México)',
+    'p4-ctx':'ITCE · Engineering Manager · 2016–2025',
+    'p4-metric':'10–15 procesos → 30+ · 7 canales VPN/MPLS · SAT + 6 bancos',
+    'p5-title':'Plataforma BI y Reportes',
+    'p5-ctx':'ITCE · Engineering Manager · 2016–2022',
+    'p5-metric':'~40 dashboards · Finanzas, Ops, Dirección · ~60K→120K tx/mes',
+    'p6-title':'Plataforma de Digitalización Aduanera con IA',
+    'p6-ctx':'Aduanapp · AI &amp; Data Engineer · 2025–Presente',
+    'p6-metric':'Claude API · integración de APIs de terceros · ingeniería de datos',
+    'p7-title':'Implementación SGSI ISO 27001',
+    'p7-ctx':'ITCE · Director de Tecnología · 2016–2024',
+    'p7-metric':'Certificación ISO 27001:2013 → transición a :2022 (2024) · ~60 controles de seguridad · 3 auditorías/año (2 internas, 1 externa) · 15+ auditorías total',
+
+    'sec-stack':'Especificación técnica',
+    'st-cloud':'Cloud / GCP','st-lang':'Lenguajes','st-fw':'Frameworks',
+    'st-db':'Bases de datos','st-arch':'Arquitectura',
+    'st-meth':'Metodologías y Normas','st-tools':'Herramientas / VCS',
+
+    'sec-edu':'Educación',
+    'edu-school':'Universidad La Salle',
+    'edu-deg1':'[2004–2008] Ingeniería en Cibernética y Sistemas Computacionales',
+    'edu-deg2':'[2011–2013] Maestría en Tecnologías de Información en Dirección a Negocios',
+
+    'sec-dl':'Descargas',
+    'dl-cv':'Curriculum Vitae',
+    'dl-en-lang':'Inglés · PDF · 2026',
+    'dl-es-lang':'Español · PDF · 2026',
+
+    'c-email':'Correo electrónico','c-phone':'Teléfono · Ubicación','c-city':'México, CDMX',
+    'c-profiles':'Perfiles','c-avail':'Remoto · Híbrido CDMX · Reubicación EUA',
+    'c-langs-lbl':'Idiomas',
+    'c-langs-val':'Español – nativo &nbsp;·&nbsp; Inglés – avanzado &nbsp;·&nbsp; Francés – intermedio',
   }
+};
 
-  toggle.addEventListener('click', () => {
-    applyDarkLight(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+/* ── APPLY LANGUAGE ── */
+function applyLang(lang) {
+  const dict = T[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const v = dict[el.dataset.i18n];
+    if (v !== undefined) el.innerHTML = v;
   });
+  document.documentElement.lang = lang;
+  langBtn.textContent = lang === 'en' ? 'ES' : 'EN';
+  langBtn.title = lang === 'en' ? 'Cambiar a español' : 'Switch to English';
+  localStorage.setItem('bp-lang', lang);
+}
 
-  // ── STYLE SWITCHER ──
-  const body       = document.body;
-  const styleBtns  = document.querySelectorAll('.style-btn');
-  const STYLES     = ['terminal', 'minimal', 'executive'];
+/* ── DARK / LIGHT ── */
+const html     = document.documentElement;
+const themeBtn = document.getElementById('themeBtn');
+const langBtn  = document.getElementById('langBtn');
 
-  function applyStyle(style) {
-    STYLES.forEach(s => body.classList.remove('style-' + s));
-    body.classList.add('style-' + style);
-    styleBtns.forEach(b => b.classList.toggle('active', b.dataset.style === style));
-    localStorage.setItem('siteStyle', style);
+function applyTheme(t) {
+  if (t === 'dark') { html.setAttribute('data-theme','dark'); themeBtn.textContent='☀ light'; }
+  else              { html.removeAttribute('data-theme');       themeBtn.textContent='☾ dark';  }
+  localStorage.setItem('bp-theme', t);
+}
 
-    // dark/light toggle visible in terminal and minimal
-    toggle.style.display = (style === 'executive') ? 'none' : '';
+themeBtn.addEventListener('click', () =>
+  applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark')
+);
+langBtn.addEventListener('click', () =>
+  applyLang(document.documentElement.lang === 'en' ? 'es' : 'en')
+);
 
-    // restore dark/light pref for terminal and minimal
-    if (style !== 'executive') {
-      applyDarkLight(localStorage.getItem('theme') || 'light');
-    } else {
-      html.removeAttribute('data-theme');
-    }
-  }
+/* ── INIT ── */
+new QRCode(document.getElementById('qrcode'), {
+  text:'https://alexcalleja.github.io',
+  width:88, height:88,
+  colorDark:'#1565c0', colorLight:'#ffffff',
+  correctLevel: QRCode.CorrectLevel.M
+});
 
-  styleBtns.forEach(btn => btn.addEventListener('click', () => applyStyle(btn.dataset.style)));
+applyTheme(localStorage.getItem('bp-theme') || 'light');
+applyLang(localStorage.getItem('bp-lang')   || 'en');
 
-  // init — default: minimal
-  const savedStyle = localStorage.getItem('siteStyle') || 'minimal';
-  applyStyle(savedStyle);
+/* ── SCROLL REVEAL ── */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  });
+}, { threshold:0.06, rootMargin:'0px 0px -30px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 </script>
 </body>
 </html>
